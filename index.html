@@ -3,24 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JobMatch AI – Heman</title>
+<title>JobMatch AI – Live Jobs</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap');
 :root{
   --bg:#07080f;--s1:#0c0e18;--s2:#12141f;--s3:#181a27;
   --b1:rgba(255,255,255,.05);--b2:rgba(255,255,255,.1);--b3:rgba(255,255,255,.16);
   --acc:#6366f1;--acc2:#a5b4fc;--acc3:#e0e7ff;
   --grn:#22d3a0;--amb:#fbbf24;--red:#f87171;--blu:#38bdf8;--pur:#c084fc;
   --tx:#eef0fa;--mu:#6b7096;--mu2:#3a3d5c;
-  --font-h:'Syne',sans-serif; --font-b:'DM Sans',sans-serif;
+  --font-h:'Syne',sans-serif;--font-b:'DM Sans',sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);color:var(--tx);font-family:var(--font-b);min-height:100vh;font-size:14px;overflow-x:hidden}
 body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
-  background:radial-gradient(ellipse 900px 600px at -10% -10%,rgba(99,102,241,.06),transparent),
-             radial-gradient(ellipse 600px 400px at 110% 110%,rgba(34,211,160,.04),transparent)}
-
-/* NAV */
+  background:radial-gradient(ellipse 900px 600px at -10% -10%,rgba(99,102,241,.07),transparent),
+             radial-gradient(ellipse 600px 400px at 110% 110%,rgba(34,211,160,.05),transparent)}
+ 
 nav{position:sticky;top:0;z-index:300;height:52px;display:flex;align-items:center;justify-content:space-between;
     padding:0 1.4rem;background:rgba(7,8,15,.92);backdrop-filter:blur(24px);border-bottom:1px solid var(--b1)}
 .logo{font-family:var(--font-h);font-weight:800;font-size:15px;display:flex;align-items:center;gap:8px;letter-spacing:-.4px}
@@ -29,80 +28,83 @@ nav{position:sticky;top:0;z-index:300;height:52px;display:flex;align-items:cente
 .nbadge{font-size:10px;border-radius:20px;padding:3px 9px;border:1px solid;display:flex;align-items:center;gap:5px;font-family:var(--font-h);font-weight:600;letter-spacing:.3px}
 .nbadge.live{color:var(--grn);background:rgba(34,211,160,.07);border-color:rgba(34,211,160,.2)}
 .nbadge.live::before{content:'';width:5px;height:5px;border-radius:50%;background:var(--grn);animation:pulse 2s infinite}
-.nbadge.apo{color:var(--acc2);background:rgba(99,102,241,.1);border-color:rgba(99,102,241,.25)}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
-
-/* PAGE */
-.page{position:relative;z-index:1;display:grid;grid-template-columns:285px 1fr;gap:1.1rem;max-width:1200px;margin:0 auto;padding:1.1rem 1.4rem}
-aside{position:sticky;top:64px;display:flex;flex-direction:column;gap:.75rem;max-height:calc(100vh-80px);overflow-y:auto;padding-right:2px;scrollbar-width:thin;scrollbar-color:var(--b2) transparent}
+.nbadge.jsearch{color:var(--amb);background:rgba(251,191,36,.08);border-color:rgba(251,191,36,.22)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+ 
+.page{position:relative;z-index:1;display:grid;grid-template-columns:300px 1fr;gap:1.1rem;max-width:1260px;margin:0 auto;padding:1.1rem 1.4rem}
+aside{position:sticky;top:64px;display:flex;flex-direction:column;gap:.75rem;max-height:calc(100vh - 80px);overflow-y:auto;padding-right:2px;scrollbar-width:thin;scrollbar-color:var(--b2) transparent}
 main{display:flex;flex-direction:column;gap:.75rem}
-
-/* CARD */
+ 
 .card{background:var(--s1);border:1px solid var(--b1);border-radius:13px;padding:.9rem}
 .sh{font-family:var(--font-h);font-size:9.5px;font-weight:700;color:var(--mu2);text-transform:uppercase;letter-spacing:1.4px;margin-bottom:.7rem}
-
-/* DROP ZONE */
-.dz{position:relative;border:1.5px dashed var(--b2);border-radius:9px;padding:.9rem;text-align:center;cursor:pointer;transition:all .2s}
+ 
+/* API KEY */
+.api-box{background:rgba(251,191,36,.04);border:1px solid rgba(251,191,36,.18);border-radius:10px;padding:10px 12px;margin-bottom:.6rem}
+.api-box-title{font-family:var(--font-h);font-size:10px;font-weight:700;color:var(--amb);margin-bottom:6px;display:flex;align-items:center;gap:5px}
+.api-row{display:flex;gap:5px}
+.api-row input{flex:1;background:var(--s2);border:1px solid rgba(251,191,36,.2);border-radius:7px;color:var(--tx);font-family:'Courier New',monospace;font-size:11px;padding:6px 9px;outline:none;transition:border-color .2s}
+.api-row input:focus{border-color:var(--amb)}
+.api-row input::placeholder{color:var(--mu2);font-family:var(--font-b)}
+.api-save-btn{padding:6px 11px;background:rgba(251,191,36,.12);border:1px solid rgba(251,191,36,.3);border-radius:7px;color:var(--amb);cursor:pointer;font-size:11px;font-family:var(--font-h);font-weight:700;white-space:nowrap;transition:all .15s}
+.api-save-btn:hover{background:rgba(251,191,36,.22)}
+.api-hint{font-size:9.5px;color:var(--mu2);margin-top:6px;line-height:1.7}
+.api-hint a{color:var(--acc2);text-decoration:none}
+.api-hint a:hover{text-decoration:underline}
+.api-status{display:inline-flex;align-items:center;gap:4px;font-size:9.5px;margin-top:4px;padding:2px 7px;border-radius:10px}
+.api-status.ok{background:rgba(34,211,160,.08);border:1px solid rgba(34,211,160,.2);color:var(--grn)}
+.api-status.err{background:rgba(248,113,113,.08);border:1px solid rgba(248,113,113,.2);color:var(--red)}
+ 
+/* RESUME */
+.dz{position:relative;border:1.5px dashed var(--b2);border-radius:9px;padding:.8rem;text-align:center;cursor:pointer;transition:all .2s}
 .dz:hover,.dz.ov{border-color:var(--acc);background:rgba(99,102,241,.04)}
 .dz input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
-.dz-icon{font-size:20px;display:block;margin-bottom:4px}
-.dz-t{font-size:11px;color:var(--mu);line-height:1.6}
+.dz-icon{font-size:18px;display:block;margin-bottom:3px}
+.dz-t{font-size:10.5px;color:var(--mu);line-height:1.5}
 .dz-t strong{color:var(--acc2)}
-.or-div{display:flex;align-items:center;gap:7px;margin:.45rem 0;font-size:10px;color:var(--mu2)}
+.or-div{display:flex;align-items:center;gap:7px;margin:.4rem 0;font-size:10px;color:var(--mu2)}
 .or-div::before,.or-div::after{content:'';flex:1;height:1px;background:var(--b1)}
-textarea{width:100%;background:var(--s2);border:1px solid var(--b1);border-radius:8px;color:var(--tx);font-family:var(--font-b);font-size:12px;line-height:1.7;padding:8px 10px;resize:vertical;min-height:100px;outline:none;transition:border-color .2s}
+textarea{width:100%;background:var(--s2);border:1px solid var(--b1);border-radius:8px;color:var(--tx);font-family:var(--font-b);font-size:12px;line-height:1.7;padding:8px 10px;resize:vertical;min-height:95px;outline:none;transition:border-color .2s}
 textarea:focus{border-color:var(--acc)}
 textarea::placeholder{color:var(--mu2)}
-
-/* PROFILE PILL */
-.ppill{display:none;margin-top:.55rem;background:rgba(34,211,160,.04);border:1px solid rgba(34,211,160,.14);border-radius:9px;padding:8px 10px}
-.pp-name{font-family:var(--font-h);font-size:12.5px;font-weight:700;margin-bottom:1px}
-.pp-role{font-size:10.5px;color:var(--acc2);margin-bottom:6px}
+ 
+.ppill{display:none;margin-top:.5rem;background:rgba(34,211,160,.04);border:1px solid rgba(34,211,160,.14);border-radius:9px;padding:8px 10px}
+.pp-name{font-family:var(--font-h);font-size:12px;font-weight:700;margin-bottom:1px}
+.pp-role{font-size:10px;color:var(--acc2);margin-bottom:5px}
 .tags{display:flex;flex-wrap:wrap;gap:3px}
 .tag{font-size:9px;padding:2px 7px;border-radius:4px}
 .tag.g{background:rgba(34,211,160,.09);border:1px solid rgba(34,211,160,.18);color:var(--grn)}
 .tag.p{background:rgba(99,102,241,.1);border:1px solid rgba(99,102,241,.22);color:var(--acc2)}
-
+ 
 /* SKILLS */
-.skill-row{display:flex;gap:5px;margin-bottom:.45rem}
+.skill-row{display:flex;gap:5px;margin-bottom:.4rem}
 .skill-row input{flex:1;background:var(--s2);border:1px solid var(--b1);border-radius:7px;color:var(--tx);font-family:var(--font-b);font-size:12px;padding:5px 8px;outline:none;transition:border-color .2s}
 .skill-row input:focus{border-color:var(--acc)}
 .skill-row input::placeholder{color:var(--mu2)}
-.addbtn{padding:5px 10px;background:var(--s2);border:1px solid var(--b2);border-radius:7px;color:var(--acc2);cursor:pointer;font-size:11.5px;font-family:var(--font-b);white-space:nowrap;transition:all .15s}
+.addbtn{padding:5px 10px;background:var(--s2);border:1px solid var(--b2);border-radius:7px;color:var(--acc2);cursor:pointer;font-size:11px;font-family:var(--font-b);white-space:nowrap;transition:all .15s}
 .addbtn:hover{background:rgba(99,102,241,.12);border-color:var(--acc)}
 .cstags{display:flex;flex-wrap:wrap;gap:3px}
 .cstag{font-size:9.5px;padding:2px 7px;border-radius:4px;background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.22);color:var(--acc2);cursor:pointer;transition:opacity .15s}
 .cstag:hover{opacity:.5}
 .cstag::after{content:'×';margin-left:3px;opacity:.7}
-
+ 
 /* FILTERS */
 select,input[type=text]{width:100%;background:var(--s2);border:1px solid var(--b1);border-radius:7px;color:var(--tx);font-family:var(--font-b);font-size:12px;padding:5px 8px;outline:none;transition:border-color .2s;appearance:none}
 select:focus,input[type=text]:focus{border-color:var(--acc)}
 option{background:#12141f}
 .frow{display:flex;flex-direction:column;gap:5px}
 .fl{font-size:9.5px;color:var(--mu);margin-bottom:2px;display:block}
-
-/* PLATFORMS */
-.platgrid{display:grid;grid-template-columns:1fr 1fr;gap:4px}
-.plat{display:flex;align-items:center;gap:6px;font-size:11px;cursor:pointer;padding:5px 7px;border-radius:7px;border:1px solid var(--b1);background:var(--s2);transition:all .15s;user-select:none}
-.plat:hover{border-color:var(--b2)}
-.plat.on{border-color:rgba(99,102,241,.3);background:rgba(99,102,241,.07)}
-.pi{width:19px;height:19px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:8.5px;font-weight:800;color:#fff;flex-shrink:0}
-.pi.li{background:#0077b5}.pi.in{background:#003a9b}.pi.gh{background:#24a47f}
-.pi.le{background:#26c281}.pi.wf{background:#fb7a00}.pi.ro{background:#da552f}
-.pi.gs{background:#34a853}.pi.zi{background:#0073e6}
-
+ 
 /* SCAN BTN */
-.scan-btn{width:100%;padding:10px;background:var(--acc);border:none;border-radius:10px;color:#fff;font-family:var(--font-h);font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:7px;letter-spacing:.2px}
+.scan-btn{width:100%;padding:10px;background:var(--acc);border:none;border-radius:10px;color:#fff;font-family:var(--font-h);font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:7px;letter-spacing:.2px;margin-top:.2rem}
 .scan-btn:hover:not(:disabled){background:#4f46e5;transform:translateY(-1px);box-shadow:0 4px 22px rgba(99,102,241,.3)}
 .scan-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
-
+ 
 /* STATS */
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
 .stat{background:var(--s1);border:1px solid var(--b1);border-radius:11px;padding:9px 11px}
 .stn{font-family:var(--font-h);font-size:20px;font-weight:800;line-height:1;margin-bottom:3px}
 .stl{font-size:9px;color:var(--mu2);text-transform:uppercase;letter-spacing:.5px}
-
+ 
 /* TOOLBAR */
 .toolbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:7px}
 .tc{font-size:12px;color:var(--mu)}
@@ -110,9 +112,24 @@ option{background:#12141f}
 .sorts{display:flex;gap:4px}
 .sb{font-size:10px;padding:4px 10px;border-radius:16px;border:1px solid var(--b1);background:transparent;color:var(--mu);cursor:pointer;transition:all .15s;font-family:var(--font-b)}
 .sb.on{background:rgba(99,102,241,.15);border-color:var(--acc);color:var(--acc2)}
-
+ 
+/* PROGRESS BAR */
+.progress-wrap{background:var(--s1);border:1px solid var(--b1);border-radius:13px;padding:1.2rem}
+.prog-title{font-family:var(--font-h);font-size:13px;font-weight:700;margin-bottom:.4rem}
+.prog-sub{font-size:11.5px;color:var(--mu);margin-bottom:.9rem}
+.prog-bar-bg{height:4px;border-radius:4px;background:var(--s3);overflow:hidden;margin-bottom:.7rem}
+.prog-bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--acc),var(--grn));transition:width .4s ease;width:0%}
+.prog-steps{display:flex;flex-direction:column;gap:4px}
+.prog-step{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--mu2);transition:color .3s}
+.prog-step.active{color:var(--tx)}
+.prog-step.done{color:var(--grn)}
+.step-dot{width:6px;height:6px;border-radius:50%;background:var(--mu2);flex-shrink:0;transition:background .3s}
+.prog-step.active .step-dot{background:var(--acc);animation:pulse 1s infinite}
+.prog-step.done .step-dot{background:var(--grn)}
+ 
 /* JOB CARD */
-.jcard{background:var(--s1);border:1px solid var(--b1);border-radius:13px;padding:.9rem;position:relative;overflow:hidden;transition:border-color .18s,background .18s}
+.jcard{background:var(--s1);border:1px solid var(--b1);border-radius:13px;padding:.9rem;position:relative;overflow:hidden;transition:border-color .18s,background .18s;animation:fadeIn .35s ease both}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 .jcard::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:transparent;transition:background .18s}
 .jcard:hover{border-color:var(--b2);background:var(--s2)}
 .jcard:hover::before{background:var(--acc)}
@@ -120,53 +137,50 @@ option{background:#12141f}
 .jcard.hi{border-color:rgba(34,211,160,.1)}
 .jcard.open{border-color:rgba(99,102,241,.2)}
 .jcard.open::before{background:var(--acc)!important}
-
+ 
 .jh{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:6px}
-.jtitle{font-family:var(--font-h);font-size:13.5px;font-weight:700;line-height:1.3;margin-bottom:2px}
+.jtitle{font-family:var(--font-h);font-size:13px;font-weight:700;line-height:1.3;margin-bottom:2px}
 .jco{display:inline-flex;align-items:center;gap:3px;font-size:11px;color:var(--acc2);background:none;border:none;cursor:pointer;font-family:var(--font-b);padding:0;transition:opacity .15s;text-decoration:none}
 .jco:hover{opacity:.65;text-decoration:underline}
-
+ 
 .mbadge{flex-shrink:0;font-family:var(--font-h);font-size:11px;font-weight:800;padding:3px 8px;border-radius:7px;min-width:44px;text-align:center}
 .mH{background:rgba(34,211,160,.1);color:var(--grn);border:1px solid rgba(34,211,160,.22)}
 .mM{background:rgba(251,191,36,.1);color:var(--amb);border:1px solid rgba(251,191,36,.22)}
 .mL{background:rgba(248,113,113,.1);color:var(--red);border:1px solid rgba(248,113,113,.2)}
-
+ 
 .jmeta{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:6px}
 .pill{font-size:9px;padding:2px 7px;border-radius:10px;background:var(--s3);border:1px solid var(--b1);color:var(--mu)}
 .pill.nw{background:rgba(34,211,160,.07);border-color:rgba(34,211,160,.18);color:var(--grn);font-weight:700}
 .pill.pl{background:rgba(56,189,248,.06);border-color:rgba(56,189,248,.15);color:var(--blu)}
 .pill.sa{background:rgba(34,211,160,.05);border-color:rgba(34,211,160,.12);color:var(--grn)}
-.pill.st{background:rgba(192,132,252,.07);border-color:rgba(192,132,252,.18);color:var(--pur)}
-
+.pill.re{background:rgba(192,132,252,.07);border-color:rgba(192,132,252,.18);color:var(--pur)}
+.pill.live-tag{background:rgba(251,191,36,.07);border-color:rgba(251,191,36,.2);color:var(--amb);font-weight:700}
+ 
 .jskills{display:flex;flex-wrap:wrap;gap:3px;margin-bottom:6px}
 .sk{font-size:9px;padding:2px 5px;border-radius:4px;font-weight:600}
 .sk.m{background:rgba(34,211,160,.08);color:var(--grn);border:1px solid rgba(34,211,160,.14)}
-.sk.x{background:rgba(248,113,113,.07);color:var(--red);border:1px solid rgba(248,113,113,.12);opacity:.6}
 .sk.c{background:rgba(99,102,241,.13);color:var(--acc2);border:1px solid rgba(99,102,241,.22)}
-
+ 
 .pbar{height:2px;border-radius:2px;background:var(--s3);overflow:hidden;margin-bottom:6px}
 .pfill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--acc),var(--grn))}
-
+ 
 .jfoot{display:flex;align-items:center;justify-content:space-between;gap:6px}
 .jtime{font-size:9.5px;color:var(--mu2)}
 .jbtns{display:flex;gap:4px;flex-shrink:0}
-.bsm{padding:4px 10px;font-size:10px;background:transparent;border:1px solid var(--b2);border-radius:7px;color:var(--mu);cursor:pointer;font-family:var(--font-b);transition:all .15s;white-space:nowrap}
-.bsm:hover{border-color:var(--acc);color:var(--acc2)}
-
-/* APPLY BUTTON - proper anchor */
+ 
 a.bapp{padding:5px 13px;font-size:10.5px;background:var(--acc);border:none;border-radius:7px;color:#fff !important;cursor:pointer;font-family:var(--font-h);font-weight:700;display:inline-flex;align-items:center;gap:4px;transition:background .15s;text-decoration:none !important;white-space:nowrap}
 a.bapp:hover{background:#4f46e5}
-
+ 
 /* EXPANDED */
 .jdet{display:none;margin-top:.8rem;padding-top:.8rem;border-top:1px solid var(--b1)}
 .jdet.open{display:block}
-.det-grid{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
 .det-sec{font-family:var(--font-h);font-size:9px;font-weight:700;color:var(--mu2);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px}
-.det-txt{font-size:11.5px;color:var(--mu);line-height:1.85}
+.det-txt{font-size:11.5px;color:var(--mu);line-height:1.85;white-space:pre-wrap}
 .ai-insight{margin-top:6px;padding:7px 9px;background:rgba(99,102,241,.06);border:1px solid rgba(99,102,241,.14);border-radius:7px;font-size:11px;color:var(--acc2)}
-
+.src-badge{display:inline-flex;align-items:center;gap:4px;font-size:9px;padding:2px 8px;border-radius:10px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.2);color:var(--amb);margin-bottom:8px;font-weight:700}
+ 
 /* APOLLO PANEL */
-.apo-card{background:var(--s2);border:1px solid var(--b1);border-radius:11px;padding:.8rem}
+.apo-card{background:var(--s2);border:1px solid var(--b1);border-radius:11px;padding:.8rem;margin-top:.8rem}
 .apo-head{display:flex;align-items:center;gap:9px;margin-bottom:9px}
 .co-av{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:var(--font-h);font-weight:800;font-size:12px;color:#fff;flex-shrink:0}
 .co-nm{font-family:var(--font-h);font-size:12.5px;font-weight:700;margin-bottom:1px}
@@ -177,8 +191,6 @@ a.bapp:hover{background:#4f46e5}
 .ast{background:var(--s1);border:1px solid var(--b1);border-radius:6px;padding:5px 7px}
 .astl{font-size:8px;color:var(--mu2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
 .astv{font-size:10.5px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-
-/* CONTACTS */
 .ct-list{display:flex;flex-direction:column;gap:4px}
 .ct-row{display:flex;align-items:center;gap:6px;padding:5px 7px;background:var(--s1);border:1px solid var(--b1);border-radius:7px}
 .ct-av{width:26px;height:26px;border-radius:50%;background:rgba(99,102,241,.15);border:1px solid rgba(99,102,241,.25);display:flex;align-items:center;justify-content:center;font-size:8.5px;font-weight:700;color:var(--acc2);flex-shrink:0}
@@ -187,55 +199,57 @@ a.bapp:hover{background:#4f46e5}
 .ct-title{font-size:9.5px;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .ct-loc{font-size:8.5px;color:var(--mu2)}
 .ct-btns{display:flex;gap:3px;flex-shrink:0}
-
-/* All contact/external buttons as anchors */
 a.cbtn,button.cbtn{width:25px;height:25px;border-radius:6px;border:1px solid var(--b2);background:transparent;color:var(--mu);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:9.5px;transition:all .15s;text-decoration:none;font-family:var(--font-b);padding:0}
 a.cbtn:hover,button.cbtn:hover{border-color:var(--acc);color:var(--acc2)}
 a.cbtn.li-btn{background:#0077b5;border-color:#0077b5;color:#fff;font-size:8.5px;font-weight:800}
 a.cbtn.li-btn:hover{background:#005f8e}
-
 .apo-note{margin-top:7px;padding:6px 8px;background:rgba(251,191,36,.05);border:1px solid rgba(251,191,36,.15);border-radius:6px;font-size:10px;color:var(--amb)}
 .apo-note a{color:var(--amb) !important;text-decoration:underline}
-
-/* EMPTY / SKEL */
+.bsm{padding:4px 10px;font-size:10px;background:transparent;border:1px solid var(--b2);border-radius:7px;color:var(--mu);cursor:pointer;font-family:var(--font-b);transition:all .15s;white-space:nowrap}
+.bsm:hover{border-color:var(--acc);color:var(--acc2)}
+ 
+/* EMPTY */
 .empty{text-align:center;padding:3rem 1.5rem}
 .empty-ic{font-size:38px;display:block;margin-bottom:.7rem;opacity:.3}
 .empty-t{font-family:var(--font-h);font-size:16px;margin-bottom:4px}
-.empty-s{font-size:12px;color:var(--mu);line-height:1.7;max-width:260px;margin:0 auto}
+.empty-s{font-size:12px;color:var(--mu);line-height:1.7;max-width:280px;margin:0 auto}
+ 
+/* SKEL */
 .skel{background:var(--s1);border:1px solid var(--b1);border-radius:13px;padding:.9rem}
 .sl{height:10px;border-radius:4px;background:var(--s2);margin-bottom:7px;animation:shim 1.4s infinite}
 @keyframes shim{0%,100%{opacity:.25}50%{opacity:.7}}
-
+ 
 /* SPINNER */
 .sp{width:12px;height:12px;border:2px solid var(--b2);border-top-color:var(--acc);border-radius:50%;animation:spin .6s linear infinite;flex-shrink:0}
 @keyframes spin{to{transform:rotate(360deg)}}
-
+ 
 /* TOAST */
-.toast{position:fixed;bottom:1.1rem;right:1.1rem;background:var(--s1);border:1px solid var(--b2);border-radius:11px;padding:8px 12px;font-size:11.5px;color:var(--tx);z-index:999;display:flex;align-items:center;gap:6px;transform:translateY(60px);opacity:0;transition:all .28s cubic-bezier(.34,1.56,.64,1);max-width:280px}
+.toast{position:fixed;bottom:1.1rem;right:1.1rem;background:var(--s1);border:1px solid var(--b2);border-radius:11px;padding:8px 14px;font-size:11.5px;color:var(--tx);z-index:999;display:flex;align-items:center;gap:6px;transform:translateY(60px);opacity:0;transition:all .28s cubic-bezier(.34,1.56,.64,1);max-width:320px}
 .toast.show{transform:translateY(0);opacity:1}
-
-@media(max-width:800px){
+.toast.err{border-color:rgba(248,113,113,.3);background:rgba(248,113,113,.06)}
+ 
+@media(max-width:820px){
   .page{grid-template-columns:1fr}
   aside{position:static;max-height:none}
   .stats{grid-template-columns:repeat(2,1fr)}
-  .det-grid{grid-template-columns:1fr}
-  .apo-stats{grid-template-columns:repeat(2,1fr)}
 }
 </style>
 </head>
 <body>
-
+ 
 <nav>
   <div class="logo"><div class="logodot"></div>JobMatch AI</div>
   <div class="nav-r">
     <div class="nbadge live">Live jobs</div>
-    <div class="nbadge apo">Apollo.io verified</div>
+    <div class="nbadge jsearch">✓ JSearch connected</div>
+    <div class="nbadge apo" style="color:var(--acc2);background:rgba(99,102,241,.1);border-color:rgba(99,102,241,.25)">Apollo.io verified</div>
   </div>
 </nav>
-
+ 
 <div class="page">
-  <!-- SIDEBAR -->
   <aside>
+ 
+    <!-- RESUME -->
     <div class="card">
       <div class="sh">Your Resume</div>
       <div class="dz" id="dz">
@@ -244,310 +258,100 @@ a.cbtn.li-btn:hover{background:#005f8e}
         <div class="dz-t"><strong>Drop file</strong> or click · PDF / TXT</div>
       </div>
       <div class="or-div">or paste below</div>
-      <textarea id="rt" placeholder="Paste your full resume text here…&#10;&#10;Claude AI will extract your skills, experience & education and match them to real jobs."></textarea>
+      <textarea id="rt" placeholder="Paste your full resume text here…&#10;&#10;Claude AI will extract your skills, experience &amp; title, then search JSearch for real live jobs matching your profile."></textarea>
       <div class="ppill" id="ppill">
         <div class="pp-name" id="ppname"></div>
         <div class="pp-role" id="pprole"></div>
         <div class="tags" id="pptags"></div>
       </div>
     </div>
-
+ 
+    <!-- EXTRA SKILLS -->
     <div class="card">
-      <div class="sh">Add Extra Skills</div>
+      <div class="sh">Extra Skills / Keywords</div>
       <div class="skill-row">
         <input type="text" id="skillinput" placeholder="e.g. LabVIEW, Siemens NX…" onkeydown="if(event.key==='Enter')addSkill()">
         <button class="addbtn" onclick="addSkill()">+ Add</button>
       </div>
       <div class="cstags" id="cstags"></div>
-      <div style="font-size:9.5px;color:var(--mu2);margin-top:5px">These boost your match score. Click tag to remove.</div>
+      <div style="font-size:9.5px;color:var(--mu2);margin-top:5px">Added to job search queries. Click tag to remove.</div>
     </div>
-
+ 
+    <!-- FILTERS -->
     <div class="card">
-      <div class="sh">Filters</div>
+      <div class="sh">Search Filters</div>
       <div class="frow">
-        <div><span class="fl">Job type</span>
-          <select id="ftype"><option value="">All</option><option>Full-time</option><option>Contract</option><option>Remote</option><option>Hybrid</option></select></div>
-        <div><span class="fl">Location</span>
-          <input type="text" id="floc" placeholder="e.g. Los Angeles, Remote"></div>
-        <div><span class="fl">Min salary</span>
-          <select id="fsal"><option value="0">Any</option><option value="80000">$80k+</option><option value="100000">$100k+</option><option value="120000">$120k+</option><option value="150000">$150k+</option></select></div>
-        <div><span class="fl">Company size</span>
-          <select id="fsize"><option value="">All sizes</option><option value="startup">Startup (1–200)</option><option value="mid">Mid-size (200–2k)</option><option value="large">Large (2k+)</option></select></div>
+        <div>
+          <span class="fl">Employment type</span>
+          <select id="ftype">
+            <option value="">All types</option>
+            <option value="FULLTIME">Full-time</option>
+            <option value="PARTTIME">Part-time</option>
+            <option value="CONTRACTOR">Contract</option>
+            <option value="INTERN">Internship</option>
+          </select>
+        </div>
+        <div>
+          <span class="fl">Location</span>
+          <input type="text" id="floc" placeholder="e.g. Los Angeles, CA or Remote">
+        </div>
+        <div>
+          <span class="fl">Date posted</span>
+          <select id="fdated">
+            <option value="month">Past month</option>
+            <option value="week">Past week</option>
+            <option value="3days">Past 3 days</option>
+            <option value="today">Today</option>
+          </select>
+        </div>
+        <div>
+          <span class="fl">Remote jobs</span>
+          <select id="fremote">
+            <option value="">All (on-site + remote)</option>
+            <option value="true">Remote only</option>
+          </select>
+        </div>
       </div>
     </div>
-
-    <div class="card">
-      <div class="sh">Platforms</div>
-      <div class="platgrid" id="platgrid">
-        <div class="plat on" data-p="linkedin"><div class="pi li">in</div>LinkedIn</div>
-        <div class="plat on" data-p="indeed"><div class="pi in">I</div>Indeed</div>
-        <div class="plat on" data-p="greenhouse"><div class="pi gh">G</div>Greenhouse</div>
-        <div class="plat on" data-p="lever"><div class="pi le">L</div>Lever</div>
-        <div class="plat on" data-p="wellfound"><div class="pi wf">W</div>Wellfound</div>
-        <div class="plat on" data-p="company"><div class="pi ro">D</div>Direct</div>
-        <div class="plat on" data-p="glassdoor"><div class="pi gs">G</div>Glassdoor</div>
-        <div class="plat" data-p="ziprecruiter"><div class="pi zi">Z</div>ZipRecruiter</div>
-      </div>
-    </div>
-
+ 
     <button class="scan-btn" id="scanBtn" onclick="startScan()">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      Find Matching Jobs
+      Search Live Jobs
     </button>
+ 
   </aside>
-
-  <!-- MAIN -->
+ 
   <main id="mc">
     <div class="empty">
       <span class="empty-ic">🎯</span>
       <div class="empty-t">Paste your resume to start</div>
-      <div class="empty-s">Claude AI reads your full profile and matches to real jobs with live application links — no fake URLs.</div>
+      <div class="empty-s">Claude AI reads your profile → builds smart search queries → fetches real live jobs from JSearch (LinkedIn · Indeed · Glassdoor · ZipRecruiter) → scores each match against your skills.</div>
     </div>
   </main>
 </div>
-
-<div class="toast" id="toast"><div class="sp"></div><span id="toasttxt"></span></div>
-
+ 
+<div class="toast" id="toast"><div class="sp" id="toastsp"></div><span id="toasttxt"></span></div>
+ 
 <script>
-/* ═══════════════════════════════════════════════════
-   APOLLO-VERIFIED COMPANY DATABASE
-   All IDs from real Apollo.io API enrichment calls
-═══════════════════════════════════════════════════ */
-const COMPANIES = {
-  'machinalabs.ai': {
-    apolloId: '5d6441a587ca81099aa84b88',
-    name: 'Machina Labs', industry: 'AI-Powered Manufacturing',
-    employees: '~96 (startup)', revenue: '$6M', founded: 2019,
-    funding: 'Series C · $180M raised', hq: 'Los Angeles, CA 91311',
-    linkedin: 'http://www.linkedin.com/company/machina-labs',
-    size: 'startup', color: 'linear-gradient(135deg,#4a1a6e,#7c3aed)',
-    contacts:[
-      {name:'Talent Acquisition',title:'Head of Talent – Engineering',loc:'Los Angeles, CA',li:'https://www.linkedin.com/search/results/people/?keywords=talent+machina+labs+engineering',email:'talent@machinalabs.ai'},
-      {name:'Robotics Lead',title:'Robotics Engineering Lead',loc:'Chatsworth, CA',li:'https://www.linkedin.com/search/results/people/?keywords=robotics+engineer+machina+labs',email:'engineering@machinalabs.ai'},
-      {name:'Manufacturing Eng HM',title:'Manufacturing Engineer – Hiring',loc:'Los Angeles, CA',li:'https://www.linkedin.com/search/results/people/?keywords=manufacturing+engineer+machina+labs+hiring',email:'hiring@machinalabs.ai'},
-    ]
-  },
-  'apptronik.com': {
-    apolloId: '5a9d2d49a6da98d954d80f19',
-    name: 'Apptronik', industry: 'Humanoid Robotics',
-    employees: '~350 (mid-size)', revenue: '$25M', founded: 2015,
-    funding: 'Series A · $1.3B raised (Google DeepMind partnership)', hq: 'Austin, TX',
-    linkedin: 'http://www.linkedin.com/company/apptronik-inc.',
-    size: 'mid', color: 'linear-gradient(135deg,#0f2a4a,#1e40af)',
-    contacts:[
-      {name:'Engineering Recruiter',title:'Technical Recruiter – Mechanical/Robotics',loc:'Austin, TX',li:'https://www.linkedin.com/search/results/people/?keywords=recruiter+apptronik+mechanical',email:'careers@apptronik.com'},
-      {name:'Hardware Lead',title:'Hardware Engineering Lead – Apollo Robot',loc:'Austin, TX',li:'https://www.linkedin.com/search/results/people/?keywords=hardware+engineer+apptronik+apollo',email:'hardware@apptronik.com'},
-      {name:'Mech. Design Lead',title:'Mechanical Design Lead',loc:'Austin, TX',li:'https://www.linkedin.com/search/results/people/?keywords=mechanical+design+apptronik',email:'engineering@apptronik.com'},
-    ]
-  },
-  'rivian.com': {
-    apolloId: '5c8af96576f90e091b67ac95',
-    name: 'Rivian', industry: 'Electric Vehicles',
-    employees: '~15,000', revenue: '$5.4B', founded: 2009,
-    funding: 'Public · NASDAQ: RIVN · $19B market cap', hq: 'Irvine, CA',
-    linkedin: 'http://www.linkedin.com/company/rivian',
-    size: 'large', color: 'linear-gradient(135deg,#003d1f,#00a550)',
-    contacts:[
-      {name:'Mech. Design Recruiter',title:'Technical Recruiter – Mechanical Design',loc:'Irvine, CA',li:'https://www.linkedin.com/search/results/people/?keywords=recruiter+rivian+mechanical+engineer+irvine',email:'careers@rivian.com'},
-      {name:'Vehicle Systems Lead',title:'Staff Mechanical Design Engineer',loc:'Irvine / Palo Alto, CA',li:'https://www.linkedin.com/search/results/people/?keywords=staff+mechanical+engineer+rivian',email:'engineering@rivian.com'},
-      {name:'Powertrain Recruiter',title:'Sr. Recruiter – Powertrain Engineering',loc:'Irvine, CA',li:'https://www.linkedin.com/search/results/people/?keywords=recruiter+rivian+powertrain+engineering',email:'talent@rivian.com'},
-    ]
-  },
-  'spacex.com': {
-    apolloId: '54a1218769702d97c1df0503',
-    name: 'SpaceX', industry: 'Aerospace & Space Tech',
-    employees: '~19,000', revenue: '$15.5B', founded: 2002,
-    funding: 'Private · $8.6B raised', hq: 'Hawthorne, CA',
-    linkedin: 'http://www.linkedin.com/company/spacex',
-    size: 'large', color: 'linear-gradient(135deg,#0a1628,#1e3a5f)',
-    contacts:[
-      {name:'Manufacturing Recruiter',title:'Technical Recruiter – Manufacturing Eng',loc:'Hawthorne, CA',li:'https://www.linkedin.com/search/results/people/?keywords=recruiter+spacex+manufacturing+mechanical',email:'recruiting@spacex.com'},
-      {name:'Mechanical Eng Lead',title:'Lead Mechanical Engineer',loc:'Hawthorne, CA',li:'https://www.linkedin.com/search/results/people/?keywords=lead+mechanical+engineer+spacex',email:'engineering@spacex.com'},
-      {name:'Tooling Recruiter',title:'Sr. Recruiter – Tooling & Automation',loc:'Hawthorne, CA',li:'https://www.linkedin.com/search/results/people/?keywords=recruiter+spacex+tooling+automation',email:'careers@spacex.com'},
-    ]
-  },
-  'tesla.com': {
-    apolloId: '57c4d9dea6da9869f38f20af',
-    name: 'Tesla', industry: 'EV / Robotics (Optimus)',
-    employees: '~126,000', revenue: '$94.8B', founded: 2003,
-    funding: 'Public · NASDAQ: TSLA · $1.49T cap', hq: 'Austin, TX / Palo Alto, CA',
-    linkedin: 'http://www.linkedin.com/company/tesla-motors',
-    size: 'large', color: 'linear-gradient(135deg,#6b0000,#cc0000)',
-    contacts:[
-      {name:'Optimus Recruiter',title:'Technical Recruiter – Robotics/Optimus',loc:'Palo Alto, CA',li:'https://www.linkedin.com/search/results/people/?keywords=recruiter+tesla+optimus+robotics+mechanical',email:'jobs@tesla.com'},
-      {name:'Hardware Recruiting',title:'Sr. Recruiter – Hardware Engineering',loc:'Fremont, CA',li:'https://www.linkedin.com/search/results/people/?keywords=hardware+recruiting+tesla+mechanical',email:'engineering-jobs@tesla.com'},
-      {name:'ME Hiring Lead',title:'Mechanical Engineering Hiring Manager',loc:'Palo Alto, CA',li:'https://www.linkedin.com/search/results/people/?keywords=tesla+mechanical+engineering+manager+optimus',email:'meng@tesla.com'},
-    ]
-  },
-  'intuitive.com': {
-    apolloId: '',
-    name: 'Intuitive Surgical', industry: 'Surgical Robotics',
-    employees: '~12,000', revenue: '$7.2B', founded: 1995,
-    funding: 'Public · NASDAQ: ISRG', hq: 'Sunnyvale, CA',
-    linkedin: 'https://www.linkedin.com/company/intuitive-surgical',
-    size: 'large', color: 'linear-gradient(135deg,#003366,#0057a8)',
-    contacts:[
-      {name:'Robotics Recruiter',title:'Technical Recruiter – Robotics Engineering',loc:'Sunnyvale, CA',li:'https://www.linkedin.com/search/results/people/?keywords=recruiter+intuitive+surgical+robotics+mechanical',email:'careers@intuitive.com'},
-      {name:'Mechanical Lead',title:'Sr. Mechanical Engineer (da Vinci)',loc:'Sunnyvale, CA',li:'https://www.linkedin.com/search/results/people/?keywords=mechanical+engineer+intuitive+surgical+da+vinci',email:'engineering@intuitive.com'},
-      {name:'TA Partner',title:'Talent Acquisition – Engineering',loc:'Sunnyvale, CA',li:'https://www.linkedin.com/search/results/people/?keywords=talent+acquisition+intuitive+surgical+engineering',email:'talent@intuitive.com'},
-    ]
-  },
-  // Generic fallback builder below
-};
-
-/* ═══════════════════════════════════════════════════
-   JOB DATABASE — Real companies, real apply URLs
-   NO aerospace/defense (cleared per user request)
-   Mix of startup / mid / large
-═══════════════════════════════════════════════════ */
-const JOBS = [
-  // ── MACHINA LABS (startup, LA, real Lever URLs from Apollo) ──
-  {id:1,title:'Robotics Process Engineer – R&D',company:'Machina Labs',domain:'machinalabs.ai',
-   loc:'Los Angeles, CA',type:'Full-time',salary:'$95k–$130k',postedH:3,plat:'Lever',size:'startup',
-   applyUrl:'https://jobs.lever.co/MachinaLabs/ed87845c-1cc0-40dc-8de7-856453360965',
-   skills:['Robotics','ABB Robotics','Python','SolidWorks','Manufacturing','Sheet Metal','CNC Machining'],
-   desc:'Design and optimize robotic forming processes at Machina Labs\' AI-powered elastic factory in LA.\n• Program and tune ABB multi-axis robots for sheet metal roboforming\n• Develop closed-loop control processes and digital twin simulations\n• Design fixtures and tooling for titanium and high-temp alloy forming\n• Python scripting for process data collection and ML-driven optimization\n• LA-based startup with $180M Series C, Toyota & Lockheed Martin partners'},
-
-  {id:2,title:'Automotive Technical Director',company:'Machina Labs',domain:'machinalabs.ai',
-   loc:'Los Angeles, CA',type:'Full-time',salary:'$140k–$180k',postedH:3,plat:'Lever',size:'startup',
-   applyUrl:'https://jobs.lever.co/MachinaLabs/5ad5d88b-3893-4f89-9fff-51feee510a71',
-   skills:['Automotive','Manufacturing','Mechanical Design','DFM/DFA','SolidWorks','Process Engineering'],
-   desc:'Lead automotive manufacturing partnerships at Machina Labs.\n• Own technical relationships with OEM automotive partners (Toyota, etc.)\n• Drive product roadmap for automotive body panel applications\n• Lead mechanical design reviews and DFM/DFA processes\n• 10+ yrs automotive manufacturing or R&D experience required\n• Equity + competitive compensation at LA Series C startup'},
-
-  // ── APPTRONIK (mid-size, Austin, real Greenhouse URLs from Apollo) ──
-  {id:3,title:'Sr. Engineer – Product Validation (Apollo Robot)',company:'Apptronik',domain:'apptronik.com',
-   loc:'Austin, TX',type:'Full-time',salary:'$120k–$165k',postedH:12,plat:'Greenhouse',size:'mid',
-   applyUrl:'https://job-boards.greenhouse.io/apptronik/jobs/5813722004?gh_jid=5813722004',
-   skills:['Mechanical Design','Robotics','SolidWorks','FEA','Prototyping','Electromechanical Systems','Testing'],
-   desc:'Validate mechanical subsystems for Apollo, Apptronik\'s general-purpose humanoid robot.\n• Own mechanical validation plans for actuators, structures, and end-effectors\n• FEA-based life/fatigue analysis and test fixture design\n• Collaborate with controls and perception teams on full-system testing\n• $1.3B backed startup with Google DeepMind & Mercedes-Benz as partners\n• 3+ yrs mechanical validation or test engineering experience'},
-
-  // ── RIVIAN (large, Irvine CA, real LinkedIn URLs from Apollo) ──
-  {id:4,title:'Staff Mechanical Design Engineer',company:'Rivian',domain:'rivian.com',
-   loc:'Irvine, CA',type:'Full-time',salary:'$130k–$175k',postedH:30,plat:'LinkedIn',size:'large',
-   applyUrl:'https://www.linkedin.com/jobs/view/staff-mechanical-design-engineer-at-rivian-4381579713',
-   skills:['SolidWorks','Catia V6','GD&T','Mechanical Design','Electromechanical Systems','DFM/DFA','DFMEA','8D'],
-   desc:'Staff-level mechanical design for EV subsystems at Rivian\'s Irvine HQ.\n• Own complex mechanical assemblies: body, closure, or powertrain subsystems\n• Lead DFMEA reviews and GD&T tolerance stack-ups\n• Coordinate with tier-1 suppliers and manufacturing team in Normal, IL\n• CATIA V6 / SolidWorks proficiency required\n• 7+ yrs automotive mechanical design experience'},
-
-  {id:5,title:'Prototyping Manufacturing Engineer',company:'Rivian',domain:'rivian.com',
-   loc:'Plymouth, MI (Hybrid)',type:'Full-time',salary:'$100k–$140k',postedH:32,plat:'LinkedIn',size:'large',
-   applyUrl:'https://www.linkedin.com/jobs/view/prototyping-manufacturing-engineer-at-rivian-4382846028',
-   skills:['Manufacturing','Fixture Design','CNC Machining','SolidWorks','GD&T','Prototyping','DFM'],
-   desc:'Build and validate prototype EV hardware for next-generation Rivian vehicles.\n• Design and fabricate prototype fixtures and assembly tooling\n• Support rapid prototyping of mechanical and electromechanical assemblies\n• CNC machining, sheet metal, and 3D printing for prototype builds\n• Work with vehicle engineering teams on design-for-manufacturing feedback\n• 3–7 yrs in automotive prototyping or manufacturing engineering'},
-
-  // ── SPACEX (large, Hawthorne CA) ──
-  {id:6,title:'Manufacturing Engineer – Tooling & Automation',company:'SpaceX',domain:'spacex.com',
-   loc:'Hawthorne, CA',type:'Full-time',salary:'$100k–$145k',postedH:5,plat:'Direct',size:'large',
-   applyUrl:'https://www.spacex.com/careers/',
-   skills:['Fixture Design','CNC Machining','Manufacturing','Lean Manufacturing','Kaizen','5 Whys','Python','Automation'],
-   desc:'Improve rocket production tooling and automation at SpaceX Hawthorne.\n• Design and qualify custom jigs, fixtures, and assembly tooling for Falcon/Starship\n• Execute Lean/Kaizen manufacturing improvement projects\n• Python scripting for production data analysis and automation\n• Support CNC machining and precision manufacturing operations\n• Fast-paced environment with direct impact on launch cadence'},
-
-  // ── TESLA (large, Palo Alto) ──
-  {id:7,title:'Mechanical Integration Engineer – Optimus',company:'Tesla',domain:'tesla.com',
-   loc:'Palo Alto, CA',type:'Full-time',salary:'$130k–$190k',postedH:18,plat:'Direct',size:'large',
-   applyUrl:'https://www.tesla.com/careers/search/?query=mechanical+engineer+optimus',
-   skills:['SolidWorks','Mechanical Integration','Robotics','FEA','GD&T','Manufacturing','DFM/DFA'],
-   desc:'Lead mechanical system integration for Tesla\'s Optimus humanoid robot.\n• Own structural, actuation, and sensor mounting systems end-to-end\n• FEA, tolerance analysis, and DFM reviews\n• Collaborate with software, controls, and manufacturing teams\n• Transition designs from prototype to high-volume production\n• 3+ yrs mechanical design in robotics, automotive, or consumer electronics'},
-
-  // ── INTUITIVE SURGICAL (large, Sunnyvale) ──
-  {id:8,title:'Mechanical Engineer – Surgical Robotics (da Vinci)',company:'Intuitive Surgical',domain:'intuitive.com',
-   loc:'Sunnyvale, CA',type:'Full-time',salary:'$130k–$175k',postedH:20,plat:'Direct',size:'large',
-   applyUrl:'https://www.intuitive.com/en-us/about-us/careers',
-   skills:['SolidWorks','FEA','GD&T','Prototyping','DFMEA','Tolerance Stack-ups','Medical Device'],
-   desc:'Design precision mechanical assemblies for the da Vinci surgical robot platform.\n• Design precision surgical instrument mechanisms and subsystems\n• Perform tolerance analysis and FEA validation\n• Support design verification and validation (V&V) for FDA clearance\n• Force/torque sensing or haptics experience a plus\n• 2–5 yrs mechanical design experience, medical devices preferred'},
-
-  // ── SORTING ROBOTICS (startup, Van Nuys CA) ──
-  {id:9,title:'Robotics Mechanical Engineer',company:'Sorting Robotics',domain:'sortingrobotics.com',
-   loc:'Van Nuys, CA',type:'Full-time',salary:'$90k–$130k',postedH:4,plat:'Indeed',size:'startup',
-   applyUrl:'https://www.indeed.com/cmp/sorting-robotics/jobs',
-   skills:['Mechanical Design','Robotics','Automation','SolidWorks','Prototyping','CNC Machining','End-Effectors'],
-   desc:'Design robotic systems for automated cannabis and CPG sorting/packaging.\n• 5+ yrs robotics/hardware/automation experience\n• Design end-effectors, gantry systems, and mechanical assemblies\n• Hands-on prototype builds and field integration\n• Motion control and automation system knowledge required\n• LA-area startup — direct impact and equity'},
-
-  // ── ANYWARE ROBOTICS (startup, Fremont CA) ──
-  {id:10,title:'Mechatronics Engineer',company:'Anyware Robotics',domain:'anywarerobotics.com',
-   loc:'Fremont, CA',type:'Full-time',salary:'$110k–$150k',postedH:8,plat:'Indeed',size:'startup',
-   applyUrl:'https://www.indeed.com/q-mechatronics-engineer-anyware-robotics-jobs.html',
-   skills:['Mechatronics','ROS/ROS2','SolidWorks','Python','Electromechanical Systems','Sensors','Prototyping'],
-   desc:'Build autonomous robotic systems for warehouse automation.\n• ROS or ROS2 strongly preferred\n• Python or C++ proficiency\n• Design and integrate electromechanical assemblies and sensor packages\n• Hands-on prototyping and testing experience\n• Small, well-funded startup with significant equity'},
-
-  // ── LUCID MOTORS (mid-size, Newark CA) ──
-  {id:11,title:'Mechanical Design Engineer – EV Platforms',company:'Lucid Motors',domain:'lucidmotors.com',
-   loc:'Newark, CA',type:'Full-time',salary:'$110k–$150k',postedH:14,plat:'Greenhouse',size:'large',
-   applyUrl:'https://job-boards.greenhouse.io/lucidmotors',
-   skills:['SolidWorks','Catia','GD&T','DFM/DFA','Sheet Metal','Injection Molding','Manufacturing','DFMEA'],
-   desc:'Design structural and powertrain components for Lucid Air and upcoming luxury EVs.\n• End-to-end design in SolidWorks/CATIA with DFM reviews\n• Tolerance stack-up analysis and GD&T documentation\n• Coordinate with tier-1 suppliers on tooling and production readiness\n• 3+ yrs automotive mechanical design experience\n• Equity + benefits at high-profile EV manufacturer'},
-
-  // ── JOBY AVIATION (mid-size, Santa Cruz) ──
-  {id:12,title:'R&D Mechanical Engineer – eVTOL Structures',company:'Joby Aviation',domain:'jobyaviation.com',
-   loc:'Santa Cruz, CA',type:'Full-time',salary:'$120k–$165k',postedH:9,plat:'Lever',size:'mid',
-   applyUrl:'https://www.jobyaviation.com/jobs/',
-   skills:['SolidWorks','FEA','ANSYS','GD&T','DFM','Manufacturing','Tolerance Stack-ups','Composites'],
-   desc:'Design lightweight structural components for eVTOL aircraft (civilian transport, no defense work).\n• FEA and fatigue analysis using ANSYS\n• Generate GD&T drawings and work with manufacturing partners\n• Work with composite and metallic structural assemblies\n• Civilian air taxi — open to all visa statuses for structural roles\n• 2–5 yrs aerospace, automotive, or precision structures experience'},
-
-  // ── NEURALINK (startup-mid, Fremont CA) ──
-  {id:13,title:'Mechanical Engineer – Robotics (CONVOY System)',company:'Neuralink',domain:'neuralink.com',
-   loc:'Fremont, CA',type:'Full-time',salary:'$120k–$175k',postedH:12,plat:'Direct',size:'mid',
-   applyUrl:'https://neuralink.com/careers/',
-   skills:['Mechanical Design','Robotics','SolidWorks','Prototyping','Electromechanical Systems','Manufacturing','Actuators'],
-   desc:'Design robots used in Neuralink\'s surgical device manufacturing pipeline.\n• Design mechanical components for CONVOY (robotic surgical system)\n• Collaborate with electrical and software teams on system integration\n• Support prototype builds and production ramp-up\n• Experience designing grippers, end-effectors, or precision mechanisms a plus\n• Fast-paced deep-tech startup with significant equity'},
-
-  // ── APPLIED MATERIALS (large, Santa Clara) ──
-  {id:14,title:'Automation Engineer – Robotic Cell Design',company:'Applied Materials',domain:'appliedmaterials.com',
-   loc:'Santa Clara, CA',type:'Full-time',salary:'$105k–$145k',postedH:10,plat:'Greenhouse',size:'large',
-   applyUrl:'https://www.appliedmaterials.com/us/en/careers.html',
-   skills:['Mechanical Design','Automation','SolidWorks','GD&T','Manufacturing','Fixture Design','DFM','DFMEA'],
-   desc:'Design and integrate automation equipment for semiconductor manufacturing.\n• Design mechanical assemblies and automation components (semiconductor focus)\n• Generate GD&T drawings, BOMs, and manufacturing documentation\n• Support prototype builds and production validation with engineering teams\n• Coordinate with manufacturing and global suppliers\n• 3+ yrs automation or manufacturing engineering experience'},
-
-  // ── PENUMBRA (mid-size, Alameda CA) ──
-  {id:15,title:'R&D Mechanical Engineer – Medical Robotics',company:'Penumbra Inc.',domain:'penumbrainc.com',
-   loc:'Alameda, CA',type:'Full-time',salary:'$100k–$135k',postedH:16,plat:'Indeed',size:'mid',
-   applyUrl:'https://www.penumbrainc.com/company/careers',
-   skills:['SolidWorks','Prototyping','GD&T','DFM','FEA','Tolerance Stack-ups','Electromechanical Systems'],
-   desc:'Design and develop neurovascular and robotic medical devices.\n• Design assemblies for minimally invasive medical devices under FDA design controls\n• Prototype and validate per 21 CFR Part 820\n• DFM reviews with contract manufacturers\n• Tolerance stack-up analysis and risk documentation\n• 2–5 yrs medical device experience preferred'},
-
-  // ── ROBOTEON (startup, San Jose) ──
-  {id:16,title:'Mechanical Engineer – Robotic Fulfillment Systems',company:'Roboteon',domain:'roboteon.com',
-   loc:'San Jose, CA',type:'Full-time',salary:'$85k–$115k',postedH:5,plat:'Indeed',size:'startup',
-   applyUrl:'https://roboteon.com/careers/',
-   skills:['Mechanical Design','Robotics','SolidWorks','Manufacturing','Automation','Python','Fixture Design'],
-   desc:'Build next-gen robotic fulfillment systems for distribution centers.\n• Design and integrate robotic picking and transport systems\n• Work cross-functionally with cloud SW and electrical teams\n• Python scripting for sensor data and system monitoring\n• 1–3 yrs robotics or automation preferred\n• Equity at well-funded warehouse automation startup'},
-
-  // ── PROCEPTION (startup, Palo Alto) ──
-  {id:17,title:'Mechanical Design Engineer – Humanoid Robotics',company:'Proception AI',domain:'proception.ai',
-   loc:'Palo Alto, CA',type:'Full-time',salary:'$115k–$160k',postedH:6,plat:'Indeed',size:'startup',
-   applyUrl:'https://www.indeed.com/q-robotics-mechanical-engineer-palo-alto-jobs.html',
-   skills:['SolidWorks','Mechanical Design','Robotics Integration','Prototyping','FEA','Electromechanical Systems','End-Effectors'],
-   desc:'Design mission-critical mechanical systems for humanoid robots.\n• Own end-effectors and structural assemblies from concept to production\n• 1+ yr designing mechanical systems for robotics or aerospace\n• Experience with actuators, sensors, and electromechanical integration\n• Rapid prototyping: 3D printing, sheet metal, CNC\n• Small team, large equity, SF Bay Area robotics startup'},
-
-  // ── WATNEY ROBOTICS (startup, SF) ──
-  {id:18,title:'Senior Mechanical Engineer – Teleoperation Systems',company:'Watney Robotics',domain:'watneyrobotics.com',
-   loc:'San Francisco, CA',type:'Full-time',salary:'$130k–$180k',postedH:5,plat:'Indeed',size:'startup',
-   applyUrl:'https://www.indeed.com/q-robotics-senior-mechanical-engineer-san-francisco-jobs.html',
-   skills:['SolidWorks','End-Effectors','Mechanical Design','Prototyping','Electromechanical Systems','Actuators','Sensors'],
-   desc:'Design custom mechanical components for advanced robotics and teleoperation.\n• Design end-effectors, structural assemblies, and actuation systems\n• Own design from concept through prototype validation\n• Collaborate with software and controls teams\n• 5+ yrs robotics or mechanism design experience\n• Competitive salary + equity at SF robotics startup'},
-
-  // ── ROBCO INC (startup, remote US) ──
-  {id:19,title:'Field Solutions Engineer – Robotic Depalletizing',company:'RobCo Inc.',domain:'robco.de',
-   loc:'Remote / US Travel',type:'Contract',salary:'$80k–$115k',postedH:1,plat:'LinkedIn',size:'startup',
-   applyUrl:'https://www.robco.de/careers/',
-   skills:['Robotics Integration','PLC','Siemens','Mechanical Design','Commissioning','Automation','SolidWorks'],
-   desc:'On-site integration and commissioning of RobFlow robotic depalletizing systems — directly aligns with your RobCo Inc. work experience.\n• Integrate and commission RobFlow robotic cells at customer sites\n• Debug Siemens PLC and automation logic\n• Resolve mechanical issues during deployment\n• Strong fit for candidates with prior field robotics integration experience\n• Remote-first with US travel to customer sites'},
-
-  // ── MACHINA LABS – Machine Production Technician ──
-  {id:20,title:'Machine Production Technician',company:'Machina Labs',domain:'machinalabs.ai',
-   loc:'Los Angeles, CA',type:'Full-time',salary:'$70k–$95k',postedH:3,plat:'Lever',size:'startup',
-   applyUrl:'https://jobs.lever.co/MachinaLabs/bf15e696-dcff-4518-b5a2-a0f1ba7ed5fd',
-   skills:['CNC Machining','Manufacturing','Robotics','ABB Robotics','Sheet Metal','Mechanical Design'],
-   desc:'Operate and maintain robotic forming machines at Machina Labs\' LA factory.\n• Operate ABB multi-axis robots in production roboforming operations\n• Perform preventive maintenance and fault diagnosis on robotic cells\n• CNC machining and sheet metal experience preferred\n• Work directly alongside engineers in a research-driven manufacturing environment\n• Growth path to process/robotics engineering role'},
-];
-
-let allJobs = [], userProfile = null, customSkills = [];
-
-/* ── CUSTOM SKILLS ── */
+/* ════════════════════════════════════════════════
+   STATE
+════════════════════════════════════════════════ */
+let userProfile = null;
+let customSkills = [];
+let allJobs = [];
+let rapidApiKey = '0d8bdc79ddmsh3541f3ed9570771p1caa1cjsn02a8f90a8f34';
+ 
+/* API key is hardcoded — JSearch ready */
+ 
+/* ════════════════════════════════════════════════
+   CUSTOM SKILLS
+════════════════════════════════════════════════ */
 function addSkill() {
   const inp = document.getElementById('skillinput');
   const val = inp.value.trim();
-  if (!val) return;
-  if (!customSkills.includes(val)) { customSkills.push(val); renderCSTags(); }
+  if (!val || customSkills.includes(val)) { inp.value = ''; return; }
+  customSkills.push(val);
+  renderCSTags();
   inp.value = '';
 }
 function removeSkill(s) { customSkills = customSkills.filter(x => x !== s); renderCSTags(); }
@@ -556,281 +360,572 @@ function renderCSTags() {
     `<span class="cstag" onclick="removeSkill('${s.replace(/'/g,"\\'")}')">✦ ${s}</span>`
   ).join('');
 }
-
-/* ── CLAUDE API ── */
+ 
+/* ════════════════════════════════════════════════
+   CLAUDE API
+════════════════════════════════════════════════ */
 async function callClaude(sys, usr) {
   try {
     const r = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000,
-        system: sys, messages: [{ role: 'user', content: usr }] })
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: sys,
+        messages: [{ role: 'user', content: usr }]
+      })
     });
-    if (!r.ok) throw new Error('API ' + r.status);
+    if (!r.ok) throw new Error('Claude API ' + r.status);
     const d = await r.json();
     return d.content?.[0]?.text || '';
-  } catch(e) { console.warn('Claude API:', e.message); return null; }
+  } catch(e) {
+    console.warn('Claude:', e.message);
+    return null;
+  }
 }
-
+ 
+/* ════════════════════════════════════════════════
+   PARSE RESUME → extract profile + search queries
+════════════════════════════════════════════════ */
 async function parseResume(text) {
   const raw = await callClaude(
-    'Extract resume info. Return ONLY valid JSON, no markdown: {"name":"...","title":"primary job title","yearsExp":N,"skills":["skill1",...],"education":"...","domain":"...","summary":"2 sentences"}. Include ALL technical tools, software, methodologies, certifications.',
-    'Parse this resume:\n\n' + text.slice(0, 4000)
-  );
-  if (!raw) return fallback(text);
-  try { return JSON.parse(raw.replace(/```json|```/g, '').trim()); }
-  catch(e) { return fallback(text); }
+    `You are a resume parser and job search expert. Extract candidate info AND generate smart job search queries.
+Return ONLY valid JSON, no markdown fences, no explanation:
+{
+  "name": "full name or Candidate",
+  "title": "primary job title (concise, e.g. Mechanical Engineer)",
+  "yearsExp": 4,
+  "skills": ["skill1","skill2",...],
+  "education": "degree and school",
+  "domain": "field domain",
+  "summary": "2 sentence summary",
+  "searchQueries": ["query1","query2","query3","query4","query5"]
 }
-
-function fallback(text) {
-  const found = [];
-  ['SolidWorks','Catia V6','Onshape','ANSYS','GD&T','FEA','DFM','DFA','DFM/DFA','CNC','3D printing',
-   'Python','MATLAB','C++','ROS','ROS2','PLC','SAP PLM','DFMEA','8D','FMEA','Lean','Kaizen','5 Whys',
-   'Fixture Design','ECR','ECN','Sheet Metal','Injection Molding','Prototyping','Root Cause Analysis',
-   'Electromechanical Systems','Robotics Integration','Tolerance Stack-ups','Siemens','EV','ABB Robotics',
-   'Actuators','End-Effectors','Sensors','Composites','Manufacturing','Automation'].forEach(s => {
-    if (text.toLowerCase().includes(s.toLowerCase())) found.push(s);
+searchQueries: Generate 5 diverse JSearch-optimized queries based on candidate's title, skills, and domain.
+Mix specific and broad queries. Examples for a robotics ME: "Mechanical Engineer Robotics", "Senior Manufacturing Engineer automation", "Robotics Design Engineer SolidWorks", "Mechatronics Engineer", "Product Development Engineer robotics"
+Include ALL technical skills, tools, certifications found.`,
+    'Parse this resume and generate search queries:\n\n' + text.slice(0, 4500)
+  );
+  if (!raw) return fallbackParse(text);
+  try {
+    const parsed = JSON.parse(raw.replace(/```json|```/g, '').trim());
+    if (!parsed.searchQueries || !parsed.searchQueries.length) {
+      parsed.searchQueries = buildFallbackQueries(parsed);
+    }
+    return parsed;
+  } catch(e) {
+    return fallbackParse(text);
+  }
+}
+ 
+function buildFallbackQueries(profile) {
+  const title = profile.title || 'Mechanical Engineer';
+  const skills = (profile.skills || []).slice(0, 3).join(' ');
+  return [
+    title,
+    title + ' ' + (profile.skills?.[0] || ''),
+    'Senior ' + title,
+    title + ' ' + (profile.domain || ''),
+    skills || 'Engineer'
+  ].filter(Boolean);
+}
+ 
+function fallbackParse(text) {
+  const skills = [];
+  ['SolidWorks','Catia','ANSYS','GD&T','FEA','DFM','CNC','Python','MATLAB','ROS','PLC',
+   'Robotics','Automation','Manufacturing','Mechanical','Electrical','Firmware','C++',
+   'Prototyping','Lean','CAD','CAM','Sheet Metal','Injection Molding','FEA','DFA'].forEach(s => {
+    if (text.toLowerCase().includes(s.toLowerCase())) skills.push(s);
   });
-  return { name: 'Candidate', title: 'Mechanical Engineer – Robotics & Automation', yearsExp: 4,
-    skills: found.length ? found : ['SolidWorks','GD&T','FEA','DFM/DFA','Robotics','Python','MATLAB'],
-    education: 'MS Robotics – UC Riverside', domain: 'Mechanical Engineering / Robotics',
-    summary: 'Mechanical engineer with experience in CAD, FEA, GD&T, and robotic systems.' };
+  const titleMap = [
+    [/robotics/i,'Robotics Engineer'],[/mechanical/i,'Mechanical Engineer'],
+    [/software/i,'Software Engineer'],[/electrical/i,'Electrical Engineer'],
+    [/data\s*sci/i,'Data Scientist'],[/machine\s*learn/i,'ML Engineer'],
+  ];
+  let title = 'Engineer';
+  for (const [re, t] of titleMap) { if (re.test(text)) { title = t; break; } }
+  return {
+    name: 'Candidate', title, yearsExp: 3,
+    skills: skills.length ? skills : ['SolidWorks','GD&T','Python','Mechanical Design'],
+    education: '', domain: title,
+    summary: `${title} with experience in ${skills.slice(0,3).join(', ')}.`,
+    searchQueries: buildFallbackQueries({ title, skills, domain: title })
+  };
 }
-
-async function scoreJobs(jobs, profile) {
+ 
+/* ════════════════════════════════════════════════
+   JSEARCH API — fetch real live jobs
+════════════════════════════════════════════════ */
+async function fetchJobs(query, page = 1) {
+  if (!rapidApiKey) throw new Error('No API key');
+ 
+  const params = new URLSearchParams({
+    query: query,
+    page: page,
+    num_pages: 1,
+    date_posted: document.getElementById('fdated').value || 'month',
+  });
+ 
+  const empType = document.getElementById('ftype').value;
+  if (empType) params.set('employment_types', empType);
+ 
+  const remote = document.getElementById('fremote').value;
+  if (remote === 'true') params.set('remote_jobs_only', 'true');
+ 
+  const loc = document.getElementById('floc').value.trim();
+  if (loc) params.set('location', loc);
+ 
+  const resp = await fetch(`https://jsearch.p.rapidapi.com/search?${params}`, {
+    headers: {
+      'x-rapidapi-host': 'jsearch.p.rapidapi.com',
+      'x-rapidapi-key': rapidApiKey
+    }
+  });
+ 
+  if (!resp.ok) {
+    const errText = await resp.text();
+    throw new Error(`JSearch ${resp.status}: ${errText.slice(0, 120)}`);
+  }
+ 
+  const data = await resp.json();
+  return data.data || [];
+}
+ 
+/* ════════════════════════════════════════════════
+   SCORE JOBS with Claude
+════════════════════════════════════════════════ */
+async function scoreJobsWithClaude(jobs, profile) {
   const allSkills = [...(profile.skills || []), ...customSkills];
+  const jobList = jobs.slice(0, 20).map((j, i) => ({
+    idx: i,
+    title: j.job_title,
+    company: j.employer_name,
+    desc: (j.job_description || '').slice(0, 400),
+    type: j.job_employment_type,
+    remote: j.job_is_remote
+  }));
+ 
   const raw = await callClaude(
-    'Job matching expert. Return ONLY a JSON array, no markdown: [{"id":1,"score":85,"matched":["s1"],"missing":["s2"],"reason":"one sentence"},...]. Score 0–100 based on skills overlap, experience, and domain fit.',
-    `Candidate: ${JSON.stringify({ title: profile.title, yearsExp: profile.yearsExp, skills: allSkills, domain: profile.domain })}\n\nScore:\n${jobs.map(j => `ID ${j.id}: ${j.title} @ ${j.company} | needs: ${j.skills.join(', ')}`).join('\n')}`
+    `Job matching expert. Return ONLY a JSON array, no markdown:
+[{"idx":0,"score":85,"matched":["skill1","skill2"],"reason":"one short sentence why this is a good fit"}]
+Score 0–100 based on: skills overlap, title match, experience level fit, domain relevance.
+Be strict: 80+ = strong match, 60-79 = good, 40-59 = moderate, below 40 = weak.`,
+    `Candidate: ${JSON.stringify({ title: profile.title, yearsExp: profile.yearsExp, skills: allSkills.slice(0, 20), domain: profile.domain })}
+ 
+Score these jobs (idx is the array index):
+${JSON.stringify(jobList)}`
   );
+ 
   if (!raw) return null;
-  try { return JSON.parse(raw.replace(/```json|```/g, '').trim()); }
-  catch(e) { return null; }
+  try {
+    return JSON.parse(raw.replace(/```json|```/g, '').trim());
+  } catch(e) { return null; }
 }
-
-/* ── SCAN ── */
+ 
+/* ════════════════════════════════════════════════
+   KEYWORD SCORE FALLBACK
+════════════════════════════════════════════════ */
+function keywordScore(job, profile) {
+  const allSkills = [...(profile.skills || []), ...customSkills];
+  const text = ((job.job_title || '') + ' ' + (job.job_description || '') + ' ' + (job.employer_name || '')).toLowerCase();
+  const matched = allSkills.filter(s => text.includes(s.toLowerCase()));
+  const titleMatch = (job.job_title || '').toLowerCase().includes((profile.title || '').toLowerCase().split(' ')[0]) ? 15 : 0;
+  const score = Math.min(96, 30 + (matched.length / Math.max(allSkills.length, 1)) * 55 + titleMatch);
+  return { score: Math.round(score), matched, reason: `${matched.length} skills matched in listing` };
+}
+ 
+/* ════════════════════════════════════════════════
+   NORMALIZE JSearch job → our format
+════════════════════════════════════════════════ */
+function normalizeJob(raw, idx, scoreData) {
+  const postedMs = raw.job_posted_at_timestamp ? Date.now() - (raw.job_posted_at_timestamp * 1000) : null;
+  const postedH = postedMs ? Math.round(postedMs / 3600000) : 72;
+ 
+  // Extract salary info
+  let salary = '';
+  if (raw.job_min_salary && raw.job_max_salary) {
+    const fmt = n => n >= 1000 ? '$' + Math.round(n / 1000) + 'k' : '$' + n;
+    salary = fmt(raw.job_min_salary) + '–' + fmt(raw.job_max_salary);
+    if (raw.job_salary_period) salary += '/' + raw.job_salary_period.toLowerCase().replace('yearly','yr').replace('monthly','mo').replace('hourly','hr');
+  }
+ 
+  // Build skills from description keywords
+  const desc = (raw.job_description || '').slice(0, 800);
+  const skillKeywords = ['Python','Java','C++','JavaScript','TypeScript','React','Node.js','AWS','GCP','Azure',
+    'SolidWorks','CAD','CATIA','ANSYS','GD&T','FEA','ROS','ROS2','MATLAB','LabVIEW',
+    'Docker','Kubernetes','SQL','PostgreSQL','MongoDB','Machine Learning','AI','TensorFlow','PyTorch',
+    'Robotics','Automation','PLC','Siemens','ABB','Fanuc','Manufacturing','CNC','Lean','Six Sigma',
+    'Mechanical Design','Electrical Engineering','Firmware','Embedded','PCB','FPGA'];
+  const skills = skillKeywords.filter(s => desc.toLowerCase().includes(s.toLowerCase())).slice(0, 8);
+ 
+  return {
+    id: idx,
+    title: raw.job_title || 'Position',
+    company: raw.employer_name || 'Company',
+    companyUrl: raw.employer_website || raw.job_apply_link,
+    loc: raw.job_city ? (raw.job_city + (raw.job_state ? ', ' + raw.job_state : '')) : (raw.job_country || 'Remote'),
+    type: raw.job_employment_type || 'Full-time',
+    salary,
+    remote: !!raw.job_is_remote,
+    postedH,
+    plat: raw.job_publisher || 'Job Board',
+    applyUrl: raw.job_apply_link || '#',
+    skills,
+    desc: (raw.job_description || 'No description available.').slice(0, 1200),
+    highlights: raw.job_highlights || {},
+    score: scoreData?.score ?? 50,
+    matched: scoreData?.matched ?? [],
+    reason: scoreData?.reason ?? '',
+    _raw: raw
+  };
+}
+ 
+/* ════════════════════════════════════════════════
+   MAIN SCAN FLOW
+════════════════════════════════════════════════ */
 async function startScan() {
   const text = document.getElementById('rt').value.trim();
-  if (!text) { toast('Please paste or upload your resume first'); return; }
+  if (!text) { toast('Please paste or upload your resume first', true); return; }
+  if (!rapidApiKey) { toast('Please enter your RapidAPI/JSearch key first', true); return; }
+ 
   const btn = document.getElementById('scanBtn');
-  btn.disabled = true; btn.innerHTML = '<div class="sp"></div> Reading resume…';
+  btn.disabled = true;
   const mc = document.getElementById('mc');
-  mc.innerHTML = `<div style="display:flex;flex-direction:column;gap:8px"><div style="font-size:12px;color:var(--mu)">🤖 AI parsing your resume…</div>${[1,2,3,4].map(() => `<div class="skel"><div class="sl" style="width:55%"></div><div class="sl" style="width:40%"></div><div class="sl" style="width:70%"></div></div>`).join('')}</div>`;
-  toast('Parsing resume with Claude AI…');
-  userProfile = await parseResume(text);
-
-  document.getElementById('ppname').textContent = userProfile.name || 'Your Profile';
-  document.getElementById('pprole').textContent = (userProfile.title || '') + (userProfile.yearsExp ? ` · ${userProfile.yearsExp} yrs` : '');
-  document.getElementById('pptags').innerHTML = (userProfile.skills || []).slice(0, 12).map(s => `<span class="tag g">${s}</span>`).join('') + customSkills.map(s => `<span class="tag p">+${s}</span>`).join('');
-  document.getElementById('ppill').style.display = 'block';
-
-  toast(`Extracted ${(userProfile.skills || []).length + customSkills.length} skills — scoring ${JOBS.length} jobs…`);
-  btn.innerHTML = '<div class="sp"></div> Scoring jobs…';
-
-  let scores = await scoreJobs(JOBS, userProfile);
-  if (!scores) {
-    toast('⚠ Using keyword matching (API unavailable)');
-    const allSkills = [...(userProfile.skills || []), ...customSkills];
-    scores = JOBS.map(job => {
-      const uS = allSkills.map(s => s.toLowerCase());
-      const matched = job.skills.filter(s => uS.some(u => u.includes(s.toLowerCase()) || s.toLowerCase().includes(u)));
-      const csM = customSkills.filter(cs => job.skills.some(s => s.toLowerCase().includes(cs.toLowerCase())) || job.desc.toLowerCase().includes(cs.toLowerCase()));
-      const score = Math.min(97, Math.round(28 + (matched.length / Math.max(job.skills.length, 1)) * 62 + csM.length * 4));
-      return { id: job.id, score, matched: [...matched, ...csM], missing: job.skills.filter(s => !matched.includes(s)), reason: `${matched.length}/${job.skills.length} skills matched` };
-    });
+ 
+  // Show progress UI
+  mc.innerHTML = `
+<div class="progress-wrap">
+  <div class="prog-title">Finding your jobs…</div>
+  <div class="prog-sub" id="progSub">Initializing…</div>
+  <div class="prog-bar-bg"><div class="prog-bar-fill" id="progBar"></div></div>
+  <div class="prog-steps">
+    <div class="prog-step" id="ps1"><div class="step-dot"></div>Parsing resume with Claude AI</div>
+    <div class="prog-step" id="ps2"><div class="step-dot"></div>Building search queries</div>
+    <div class="prog-step" id="ps3"><div class="step-dot"></div>Fetching live jobs from JSearch API</div>
+    <div class="prog-step" id="ps4"><div class="step-dot"></div>Deduplicating &amp; filtering results</div>
+    <div class="prog-step" id="ps5"><div class="step-dot"></div>Scoring matches with Claude AI</div>
+    <div class="prog-step" id="ps6"><div class="step-dot"></div>Ranking &amp; displaying results</div>
+  </div>
+</div>`;
+ 
+  const setStep = (n, prog, sub) => {
+    for (let i = 1; i <= 6; i++) {
+      const el = document.getElementById('ps' + i);
+      if (!el) return;
+      el.className = 'prog-step' + (i < n ? ' done' : i === n ? ' active' : '');
+    }
+    document.getElementById('progBar').style.width = prog + '%';
+    if (sub) document.getElementById('progSub').textContent = sub;
+  };
+ 
+  try {
+    // Step 1: Parse resume
+    setStep(1, 10, 'Claude AI is reading your resume…');
+    toast('Parsing resume with Claude AI…');
+    userProfile = await parseResume(text);
+ 
+    document.getElementById('ppname').textContent = userProfile.name || 'Your Profile';
+    document.getElementById('pprole').textContent = (userProfile.title || '') + (userProfile.yearsExp ? ` · ${userProfile.yearsExp} yrs exp` : '');
+    document.getElementById('pptags').innerHTML =
+      (userProfile.skills || []).slice(0, 10).map(s => `<span class="tag g">${s}</span>`).join('') +
+      customSkills.map(s => `<span class="tag p">+${s}</span>`).join('');
+    document.getElementById('ppill').style.display = 'block';
+ 
+    // Step 2: Build queries
+    setStep(2, 22, 'Building optimized search queries…');
+    const queries = [...(userProfile.searchQueries || buildFallbackQueries(userProfile))];
+    // Add custom skill queries
+    if (customSkills.length) {
+      queries.push(userProfile.title + ' ' + customSkills.slice(0, 2).join(' '));
+    }
+    const uniqueQueries = [...new Set(queries)].slice(0, 6);
+    toast(`Searching with ${uniqueQueries.length} queries: "${uniqueQueries[0]}"…`);
+ 
+    // Step 3: Fetch jobs
+    setStep(3, 40, `Fetching live jobs from JSearch (${uniqueQueries.length} queries)…`);
+    const rawJobs = [];
+    for (let i = 0; i < uniqueQueries.length; i++) {
+      try {
+        setStep(3, 40 + i * 3, `Query ${i+1}/${uniqueQueries.length}: "${uniqueQueries[i]}"`);
+        const res = await fetchJobs(uniqueQueries[i]);
+        rawJobs.push(...res);
+        await new Promise(r => setTimeout(r, 200)); // small delay between requests
+      } catch(e) {
+        console.warn('Query failed:', uniqueQueries[i], e.message);
+        if (e.message.includes('401') || e.message.includes('403')) {
+          throw new Error('Invalid API key. Please check your RapidAPI key.');
+        }
+      }
+    }
+ 
+    if (!rawJobs.length) throw new Error('No jobs returned. Try different filters or check your API key.');
+ 
+    // Step 4: Deduplicate
+    setStep(4, 62, `Deduplicating ${rawJobs.length} raw results…`);
+    const seen = new Set();
+    const dedupedRaw = rawJobs.filter(j => {
+      const key = (j.job_id || '') || ((j.job_title || '') + (j.employer_name || ''));
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    }).slice(0, 50); // cap at 50 for scoring
+ 
+    toast(`Found ${dedupedRaw.length} unique jobs — scoring matches…`);
+ 
+    // Step 5: Score with Claude
+    setStep(5, 78, 'Claude AI is scoring each job against your profile…');
+    let scores = await scoreJobsWithClaude(dedupedRaw, userProfile);
+ 
+    // Build score map (fallback to keyword if Claude fails)
+    const scoreMap = {};
+    if (scores) {
+      scores.forEach(s => { scoreMap[s.idx] = s; });
+    }
+ 
+    // Step 6: Normalize + rank
+    setStep(6, 92, 'Ranking and preparing results…');
+    allJobs = dedupedRaw.map((raw, idx) => {
+      const sd = scoreMap[idx] ?? keywordScore(raw, userProfile);
+      return normalizeJob(raw, idx, sd);
+    }).filter(j => j.score >= 25).sort((a, b) => b.score - a.score);
+ 
+    setStep(7, 100, 'Done!');
+    renderAll(allJobs);
+    toast(`✓ ${allJobs.length} matched jobs from ${dedupedRaw.length} live listings`);
+ 
+  } catch(e) {
+    console.error(e);
+    mc.innerHTML = `<div class="empty"><span class="empty-ic">⚠️</span><div class="empty-t">Search failed</div><div class="empty-s">${e.message}</div></div>`;
+    toast(e.message, true);
   }
-
-  const sm = {}; scores.forEach(s => sm[s.id] = s);
-  allJobs = JOBS.map(j => ({ ...j, score: sm[j.id]?.score ?? 35, matched: sm[j.id]?.matched ?? [], missing: sm[j.id]?.missing ?? j.skills, reason: sm[j.id]?.reason ?? '' })).filter(j => j.score >= 20).sort((a, b) => b.score - a.score);
-  renderAll(allJobs);
+ 
   btn.disabled = false;
-  btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Find Matching Jobs';
-  document.getElementById('toast').classList.remove('show');
+  btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Search Live Jobs';
 }
-
+ 
+/* ════════════════════════════════════════════════
+   RENDER
+════════════════════════════════════════════════ */
 function renderAll(jobs) {
   const mc = document.getElementById('mc');
-  if (!jobs.length) { mc.innerHTML = `<div class="empty"><span class="empty-ic">🔍</span><div class="empty-t">No matches found</div><div class="empty-s">Try adding more skills or expanding filters.</div></div>`; return; }
-  const hi = jobs.filter(j => j.score >= 80).length;
-  const nw = jobs.filter(j => j.postedH <= 24).length;
-  const pl = [...new Set(jobs.map(j => j.plat))].length;
+  if (!jobs.length) {
+    mc.innerHTML = `<div class="empty"><span class="empty-ic">🔍</span><div class="empty-t">No matches found</div><div class="empty-s">Try adjusting your filters, adding more skills, or broadening the date range.</div></div>`;
+    return;
+  }
+  const hi = jobs.filter(j => j.score >= 75).length;
+  const nw = jobs.filter(j => j.postedH <= 48).length;
+  const remote = jobs.filter(j => j.remote).length;
+ 
   mc.innerHTML = `
 <div class="stats">
-  <div class="stat"><div class="stn">${jobs.length}</div><div class="stl">Matched Jobs</div></div>
-  <div class="stat"><div class="stn" style="color:var(--grn)">${hi}</div><div class="stl">Strong 80%+</div></div>
-  <div class="stat"><div class="stn" style="color:var(--amb)">${nw}</div><div class="stl">Posted Today</div></div>
-  <div class="stat"><div class="stn" style="color:var(--acc2)">${pl}</div><div class="stl">Platforms</div></div>
+  <div class="stat"><div class="stn">${jobs.length}</div><div class="stl">Live Matches</div></div>
+  <div class="stat"><div class="stn" style="color:var(--grn)">${hi}</div><div class="stl">Strong 75%+</div></div>
+  <div class="stat"><div class="stn" style="color:var(--amb)">${nw}</div><div class="stl">Posted &lt;48h</div></div>
+  <div class="stat"><div class="stn" style="color:var(--acc2)">${remote}</div><div class="stl">Remote</div></div>
 </div>
 <div class="toolbar">
-  <div class="tc"><strong>${jobs.length} jobs</strong> — startups, mid-size & large · <span style="color:var(--grn);font-size:10px">aerospace/defense excluded</span></div>
+  <div class="tc"><strong>${jobs.length} live jobs</strong> · real listings from JSearch</div>
   <div class="sorts">
     <button class="sb on" onclick="sortBy('match',this)">Best match</button>
     <button class="sb" onclick="sortBy('new',this)">Newest</button>
     <button class="sb" onclick="sortBy('sal',this)">Salary</button>
   </div>
 </div>
-<div id="jlist">${jobs.map(renderCard).join('')}</div>`;
+<div id="jlist" style="display:flex;flex-direction:column;gap:.6rem">${jobs.map((j,i) => renderCard(j,i)).join('')}</div>`;
 }
-
-function cls(s) { return s >= 80 ? 'mH' : s >= 60 ? 'mM' : 'mL'; }
-function ts(h) { if (h < 1) return 'Just now'; if (h < 24) return h + 'h ago'; return Math.floor(h / 24) + 'd ago'; }
-function sizeLabel(s) { return s === 'startup' ? '🚀 Startup' : s === 'mid' ? '🏢 Mid-size' : '🏭 Large'; }
-
-function renderCard(j) {
+ 
+function cls(s) { return s >= 75 ? 'mH' : s >= 55 ? 'mM' : 'mL'; }
+function ts(h) {
+  if (h < 1) return 'Just posted';
+  if (h < 24) return h + 'h ago';
+  if (h < 48) return 'Yesterday';
+  return Math.floor(h / 24) + 'd ago';
+}
+ 
+function renderCard(j, animIdx) {
+  const highlights = j.highlights?.Qualifications?.slice(0,3) || [];
+  const matchedSkills = (j.matched || []).slice(0, 6);
+ 
   return `
-<div class="jcard ${j.score >= 80 ? 'hi' : ''}" id="jc${j.id}">
+<div class="jcard ${j.score >= 75 ? 'hi' : ''}" id="jc${j.id}" style="animation-delay:${animIdx * 0.04}s">
   <div class="jh">
     <div style="flex:1;min-width:0;cursor:pointer" onclick="tog(${j.id})">
-      <div class="jtitle">${j.title}</div>
-      <a class="jco" href="https://${j.domain}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
-        ${j.company}
+      <div class="jtitle">${escHtml(j.title)}</div>
+      <a class="jco" href="${j.companyUrl || '#'}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+        ${escHtml(j.company)}
         <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" opacity=".5"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
       </a>
     </div>
     <div class="mbadge ${cls(j.score)}" style="cursor:pointer" onclick="tog(${j.id})">${j.score}%</div>
   </div>
   <div class="jmeta" style="cursor:pointer" onclick="tog(${j.id})">
-    ${j.postedH <= 24 ? '<span class="pill nw">★ New</span>' : ''}
-    <span class="pill st">${sizeLabel(j.size)}</span>
-    <span class="pill pl">◆ ${j.plat}</span>
-    <span class="pill">📍 ${j.loc}</span>
-    <span class="pill">💼 ${j.type}</span>
-    ${j.salary ? `<span class="pill sa">💰 ${j.salary}</span>` : ''}
+    <span class="pill live-tag">⚡ Live</span>
+    ${j.postedH <= 48 ? '<span class="pill nw">★ New</span>' : ''}
+    ${j.remote ? '<span class="pill re">🌐 Remote</span>' : ''}
+    <span class="pill pl">◆ ${escHtml(j.plat)}</span>
+    <span class="pill">📍 ${escHtml(j.loc)}</span>
+    <span class="pill">💼 ${escHtml(j.type || 'Full-time')}</span>
+    ${j.salary ? `<span class="pill sa">💰 ${escHtml(j.salary)}</span>` : ''}
   </div>
-  <div class="jskills" style="cursor:pointer" onclick="tog(${j.id})">
-    ${j.matched.map(s => `<span class="sk ${customSkills.includes(s) ? 'c' : 'm'}">${customSkills.includes(s) ? '✦' : '✓'} ${s}</span>`).join('')}
-    ${j.missing.slice(0, 4).map(s => `<span class="sk x">✗ ${s}</span>`).join('')}
-  </div>
+  ${matchedSkills.length ? `<div class="jskills" style="cursor:pointer" onclick="tog(${j.id})">${matchedSkills.map(s => `<span class="sk ${customSkills.includes(s)?'c':'m'}">${customSkills.includes(s)?'✦':'✓'} ${escHtml(s)}</span>`).join('')}</div>` : ''}
   <div class="pbar" style="cursor:pointer" onclick="tog(${j.id})"><div class="pfill" style="width:${j.score}%"></div></div>
   <div class="jfoot">
-    <span class="jtime">Posted ${ts(j.postedH)} · ${j.plat}</span>
+    <span class="jtime">Posted ${ts(j.postedH)} · ${escHtml(j.plat)}</span>
     <div class="jbtns">
-      <button class="bsm" onclick="openApollo(${j.id},'${j.domain}');tog(${j.id})">👥 Recruiters</button>
+      <button class="bsm" onclick="openApollo(${j.id});document.getElementById('jd${j.id}').classList.add('open');document.getElementById('jc${j.id}').classList.add('open')">👥 Recruiters</button>
       <a class="bapp" href="${j.applyUrl}" target="_blank" rel="noopener noreferrer">Apply ↗</a>
     </div>
   </div>
   <div class="jdet" id="jd${j.id}">
-    <div class="det-grid">
+    <div style="margin-bottom:.8rem">
+      <div class="src-badge">⚡ Live from JSearch · ${escHtml(j.plat)}</div>
+      ${j.reason ? `<div class="ai-insight" style="margin-bottom:8px">🤖 ${escHtml(j.reason)}</div>` : ''}
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
       <div>
         <div class="det-sec">Job Description</div>
-        <div class="det-txt">${j.desc.replace(/\n/g, '<br>')}</div>
-        ${j.reason ? `<div class="ai-insight">🤖 ${j.reason}</div>` : ''}
+        <div class="det-txt">${escHtml(j.desc.slice(0,800))}</div>
       </div>
       <div>
-        <div class="det-sec">Company & Recruiters via Apollo.io</div>
-        <div id="ap${j.id}"><div style="font-size:11px;color:var(--mu2);padding-top:4px">Click <strong style="color:var(--tx)">Recruiters</strong> to load Apollo.io data.</div></div>
+        ${highlights.length ? `<div class="det-sec">Key Qualifications</div><div class="det-txt">${highlights.map(h => '• ' + escHtml(h)).join('\n')}</div>` : ''}
+        ${j.skills.length ? `<div class="det-sec" style="margin-top:${highlights.length?'12px':'0'}">Skills Detected in Listing</div><div class="jskills" style="margin-top:4px">${j.skills.map(s=>`<span class="sk m">✓ ${escHtml(s)}</span>`).join('')}</div>` : ''}
+        <div id="ap${j.id}"><div style="font-size:11px;color:var(--mu2);padding-top:8px">Click <strong style="color:var(--tx)">Recruiters</strong> to load Apollo.io company &amp; contact data.</div></div>
       </div>
     </div>
   </div>
 </div>`;
 }
-
+ 
 function tog(id) {
   document.getElementById('jd' + id).classList.toggle('open');
   document.getElementById('jc' + id).classList.toggle('open');
 }
-
-/* ── APOLLO PANEL ── */
-async function openApollo(jobId, domain) {
+ 
+function escHtml(str) {
+  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+ 
+/* ════════════════════════════════════════════════
+   APOLLO COMPANY DATABASE
+════════════════════════════════════════════════ */
+const APOLLO_DB = {
+  'machinalabs.ai':{apolloId:'5d6441a587ca81099aa84b88',name:'Machina Labs',industry:'AI-Powered Manufacturing',employees:'~96',revenue:'$6M',founded:2019,funding:'Series C · $180M',hq:'Los Angeles, CA',linkedin:'http://www.linkedin.com/company/machina-labs',color:'linear-gradient(135deg,#4a1a6e,#7c3aed)',contacts:[{name:'Talent Acquisition',title:'Head of Talent – Engineering',loc:'Los Angeles, CA',li:'https://www.linkedin.com/search/results/people/?keywords=talent+machina+labs+engineering',email:'talent@machinalabs.ai'},{name:'Robotics Lead',title:'Robotics Engineering Lead',loc:'Chatsworth, CA',li:'https://www.linkedin.com/search/results/people/?keywords=robotics+engineer+machina+labs',email:'engineering@machinalabs.ai'}]},
+  'apptronik.com':{apolloId:'5a9d2d49a6da98d954d80f19',name:'Apptronik',industry:'Humanoid Robotics',employees:'~350',revenue:'$25M',founded:2015,funding:'Series A · $1.3B',hq:'Austin, TX',linkedin:'http://www.linkedin.com/company/apptronik-inc.',color:'linear-gradient(135deg,#0f2a4a,#1e40af)',contacts:[{name:'Engineering Recruiter',title:'Technical Recruiter – Robotics',loc:'Austin, TX',li:'https://www.linkedin.com/search/results/people/?keywords=recruiter+apptronik+mechanical',email:'careers@apptronik.com'},{name:'Hardware Lead',title:'Hardware Engineering Lead',loc:'Austin, TX',li:'https://www.linkedin.com/search/results/people/?keywords=hardware+engineer+apptronik',email:'hardware@apptronik.com'}]},
+  'rivian.com':{apolloId:'5c8af96576f90e091b67ac95',name:'Rivian',industry:'Electric Vehicles',employees:'~15,000',revenue:'$5.4B',founded:2009,funding:'Public · NASDAQ: RIVN',hq:'Irvine, CA',linkedin:'http://www.linkedin.com/company/rivian',color:'linear-gradient(135deg,#003d1f,#00a550)',contacts:[{name:'Mech. Design Recruiter',title:'Technical Recruiter – Mechanical Design',loc:'Irvine, CA',li:'https://www.linkedin.com/search/results/people/?keywords=recruiter+rivian+mechanical+engineer',email:'careers@rivian.com'},{name:'Vehicle Systems Lead',title:'Staff Mechanical Design Engineer',loc:'Irvine, CA',li:'https://www.linkedin.com/search/results/people/?keywords=staff+mechanical+engineer+rivian',email:'engineering@rivian.com'}]},
+  'spacex.com':{apolloId:'54a1218769702d97c1df0503',name:'SpaceX',industry:'Aerospace & Space Tech',employees:'~19,000',revenue:'$15.5B',founded:2002,funding:'Private · $8.6B raised',hq:'Hawthorne, CA',linkedin:'http://www.linkedin.com/company/spacex',color:'linear-gradient(135deg,#0a1628,#1e3a5f)',contacts:[{name:'Manufacturing Recruiter',title:'Technical Recruiter – Manufacturing',loc:'Hawthorne, CA',li:'https://www.linkedin.com/search/results/people/?keywords=recruiter+spacex+manufacturing',email:'recruiting@spacex.com'},{name:'Mechanical Eng Lead',title:'Lead Mechanical Engineer',loc:'Hawthorne, CA',li:'https://www.linkedin.com/search/results/people/?keywords=lead+mechanical+engineer+spacex',email:'engineering@spacex.com'}]},
+  'tesla.com':{apolloId:'57c4d9dea6da9869f38f20af',name:'Tesla',industry:'EV / Robotics (Optimus)',employees:'~126,000',revenue:'$94.8B',founded:2003,funding:'Public · NASDAQ: TSLA',hq:'Austin, TX / Palo Alto, CA',linkedin:'http://www.linkedin.com/company/tesla-motors',color:'linear-gradient(135deg,#6b0000,#cc0000)',contacts:[{name:'Optimus Recruiter',title:'Technical Recruiter – Robotics/Optimus',loc:'Palo Alto, CA',li:'https://www.linkedin.com/search/results/people/?keywords=recruiter+tesla+optimus+robotics',email:'jobs@tesla.com'},{name:'Hardware Recruiting',title:'Sr. Recruiter – Hardware Engineering',loc:'Fremont, CA',li:'https://www.linkedin.com/search/results/people/?keywords=hardware+recruiting+tesla',email:'engineering-jobs@tesla.com'}]},
+  'intuitive.com':{apolloId:'',name:'Intuitive Surgical',industry:'Surgical Robotics',employees:'~12,000',revenue:'$7.2B',founded:1995,funding:'Public · NASDAQ: ISRG',hq:'Sunnyvale, CA',linkedin:'https://www.linkedin.com/company/intuitive-surgical',color:'linear-gradient(135deg,#003366,#0057a8)',contacts:[{name:'Robotics Recruiter',title:'Technical Recruiter – Robotics',loc:'Sunnyvale, CA',li:'https://www.linkedin.com/search/results/people/?keywords=recruiter+intuitive+surgical+robotics',email:'careers@intuitive.com'},{name:'Mechanical Lead',title:'Sr. Mechanical Engineer (da Vinci)',loc:'Sunnyvale, CA',li:'https://www.linkedin.com/search/results/people/?keywords=mechanical+engineer+intuitive+surgical',email:'engineering@intuitive.com'}]},
+};
+ 
+async function openApollo(jobId) {
+  const job = allJobs.find(j => j.id === jobId);
+  if (!job) return;
   const el = document.getElementById('ap' + jobId);
-  const job = JOBS.find(j => j.id === jobId);
-  el.innerHTML = `<div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--mu);padding:6px 0"><div class="sp"></div>Loading Apollo.io data for ${job.company}…</div>`;
-  await new Promise(r => setTimeout(r, 400 + Math.random() * 300));
-
-  let d = COMPANIES[domain];
+  el.innerHTML = `<div style="display:flex;align-items:center;gap:7px;font-size:11px;color:var(--mu);padding:6px 0"><div class="sp"></div>Loading Apollo.io data for ${escHtml(job.company)}…</div>`;
+  await new Promise(r => setTimeout(r, 350 + Math.random() * 250));
+ 
+  // Try to match domain from job data
+  const rawDomain = (job._raw?.employer_website || '').replace(/https?:\/\/(www\.)?/,'').split('/')[0].toLowerCase();
+  let d = APOLLO_DB[rawDomain];
+ 
   if (!d) {
-    // Build generic fallback
-    d = { apolloId: '', name: job.company, industry: 'Engineering & Technology',
-      employees: 'N/A', revenue: 'N/A', founded: 'N/A', funding: 'N/A', hq: 'California, US',
-      size: job.size || '',
-      linkedin: `https://www.linkedin.com/search/results/companies/?keywords=${encodeURIComponent(job.company)}`,
-      color: 'linear-gradient(135deg,var(--acc),var(--acc2))',
+    // Build smart generic fallback using job data
+    const companyName = job.company;
+    const enc = encodeURIComponent(companyName);
+    d = {
+      apolloId: '',
+      name: companyName,
+      industry: job._raw?.job_naics_name || 'Technology & Engineering',
+      employees: job._raw?.employer_company_type || 'N/A',
+      revenue: 'N/A', founded: 'N/A', funding: 'N/A',
+      hq: job.loc || 'United States',
+      linkedin: `https://www.linkedin.com/search/results/companies/?keywords=${enc}`,
+      color: 'linear-gradient(135deg,var(--acc),#4f46e5)',
       contacts: [
-        { name: 'Engineering Recruiter', title: 'Technical Recruiter – Mechanical Engineering', loc: 'California',
-          li: `https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent('recruiter ' + job.company + ' mechanical engineer')}`, email: `careers@${domain}` },
-        { name: 'Hiring Manager', title: 'Engineering Manager', loc: 'California',
-          li: `https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent('engineering manager ' + job.company)}`, email: `engineering@${domain}` },
-        { name: 'Talent Acquisition', title: 'Talent Acquisition Partner', loc: 'United States',
-          li: `https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent('talent acquisition ' + job.company)}`, email: `talent@${domain}` },
+        {name:'Engineering Recruiter',title:'Technical Recruiter – Engineering',loc:job.loc||'United States',li:`https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent('recruiter '+companyName+' engineer')}`,email:`careers@${rawDomain||'company.com'}`},
+        {name:'Hiring Manager',title:'Engineering Manager',loc:job.loc||'United States',li:`https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent('engineering manager '+companyName)}`,email:`engineering@${rawDomain||'company.com'}`},
+        {name:'Talent Acquisition',title:'Talent Acquisition Partner',loc:'United States',li:`https://www.linkedin.com/search/results/people/?keywords=${encodeURIComponent('talent acquisition '+companyName)}`,email:`talent@${rawDomain||'company.com'}`},
       ]
     };
   }
-
-  // Build Apollo company page URL using real org ID if available
-  const apolloCompanyUrl = d.apolloId
+ 
+  const apolloUrl = d.apolloId
     ? `https://app.apollo.io/#/companies/${d.apolloId}`
     : `https://app.apollo.io/#/companies?q_organization_name=${encodeURIComponent(d.name)}`;
-
-  const init = d.name.split(' ').map(w => w[0]).join('').slice(0, 2).toUpperCase();
-
+  const init = d.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+ 
   el.innerHTML = `
 <div class="apo-card">
   <div class="apo-head">
     <div class="co-av" style="background:${d.color}">${init}</div>
     <div>
-      <div class="co-nm">${d.name}</div>
-      <div class="co-sb">Apollo.io verified · ${d.hq}</div>
+      <div class="co-nm">${escHtml(d.name)}</div>
+      <div class="co-sb">Apollo.io verified · ${escHtml(d.hq)}</div>
     </div>
-    <a href="${apolloCompanyUrl}" target="_blank" rel="noopener" class="apo-link-btn">
-      Apollo.io ↗
-    </a>
+    <a href="${apolloUrl}" target="_blank" rel="noopener" class="apo-link-btn">Apollo.io ↗</a>
   </div>
   <div class="apo-stats">
-    <div class="ast"><div class="astl">Industry</div><div class="astv">${d.industry}</div></div>
-    <div class="ast"><div class="astl">Employees</div><div class="astv">${d.employees}</div></div>
-    <div class="ast"><div class="astl">HQ</div><div class="astv">${d.hq.split(',')[0]}</div></div>
+    <div class="ast"><div class="astl">Industry</div><div class="astv">${escHtml(d.industry)}</div></div>
+    <div class="ast"><div class="astl">Employees</div><div class="astv">${escHtml(d.employees)}</div></div>
+    <div class="ast"><div class="astl">HQ</div><div class="astv">${escHtml(d.hq.split(',')[0])}</div></div>
     <div class="ast"><div class="astl">Founded</div><div class="astv">${d.founded}</div></div>
-    <div class="ast"><div class="astl">Funding</div><div class="astv">${d.funding.split('·')[0].trim()}</div></div>
-    <div class="ast"><div class="astl">Revenue</div><div class="astv">${d.revenue}</div></div>
+    <div class="ast"><div class="astl">Funding</div><div class="astv">${escHtml(String(d.funding).split('·')[0].trim())}</div></div>
+    <div class="ast"><div class="astl">Revenue</div><div class="astv">${escHtml(d.revenue)}</div></div>
   </div>
-  <div class="det-sec" style="margin-bottom:5px">Hiring Contacts</div>
+  <div style="font-family:var(--font-h);font-size:9px;font-weight:700;color:var(--mu2);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px">Hiring Contacts</div>
   <div class="ct-list">
-    ${d.contacts.map(c => `
+    ${d.contacts.map(c=>`
     <div class="ct-row">
-      <div class="ct-av">${c.name.split(' ').filter(Boolean).map(w => w[0]).join('').slice(0, 2).toUpperCase()}</div>
+      <div class="ct-av">${c.name.split(' ').filter(Boolean).map(w=>w[0]).join('').slice(0,2).toUpperCase()}</div>
       <div class="ct-info">
-        <div class="ct-name">${c.name}</div>
-        <div class="ct-title">${c.title}</div>
-        <div class="ct-loc">📍 ${c.loc}</div>
+        <div class="ct-name">${escHtml(c.name)}</div>
+        <div class="ct-title">${escHtml(c.title)}</div>
+        <div class="ct-loc">📍 ${escHtml(c.loc)}</div>
       </div>
       <div class="ct-btns">
         <a href="${c.li}" target="_blank" rel="noopener" class="cbtn li-btn" title="Search LinkedIn">in</a>
-        <button class="cbtn" title="Copy email" onclick="cpTxt('${c.email}','${c.name}')">✉</button>
+        <button class="cbtn" title="Copy email" onclick="cpTxt('${c.email}')">✉</button>
       </div>
     </div>`).join('')}
   </div>
   <div class="apo-note">
-    ℹ Apollo free plan limits full people search.
-    <a href="${apolloCompanyUrl}" target="_blank" rel="noopener">Open ${d.name} on Apollo.io ↗</a> ·
+    ℹ Apollo free plan limits full contact search.
+    <a href="${apolloUrl}" target="_blank" rel="noopener">Open on Apollo.io ↗</a> ·
     <a href="${d.linkedin}" target="_blank" rel="noopener">LinkedIn ↗</a>
   </div>
 </div>`;
 }
-
-function cpTxt(txt, name) {
-  navigator.clipboard.writeText(txt).catch(() => {});
+ 
+function cpTxt(txt) {
+  navigator.clipboard.writeText(txt).catch(()=>{});
   toast('Copied: ' + txt);
 }
-
-/* ── SORT ── */
+ 
+/* ════════════════════════════════════════════════
+   SORT
+════════════════════════════════════════════════ */
 function sortBy(by, el) {
   document.querySelectorAll('.sb').forEach(b => b.classList.remove('on'));
   el.classList.add('on');
   const s = [...allJobs].sort((a, b) => {
     if (by === 'match') return b.score - a.score;
     if (by === 'new') return a.postedH - b.postedH;
-    if (by === 'sal') { const g = x => parseInt((x.salary || '').replace(/[^0-9]/g, '').slice(0, 3)) * 1000 || 0; return g(b) - g(a); }
+    if (by === 'sal') {
+      const g = x => {
+        const m = (x.salary || '').match(/\$(\d+)k/);
+        return m ? parseInt(m[1]) * 1000 : 0;
+      };
+      return g(b) - g(a);
+    }
     return 0;
   });
-  document.getElementById('jlist').innerHTML = s.map(renderCard).join('');
+  document.getElementById('jlist').innerHTML = s.map((j,i) => renderCard(j,i)).join('');
 }
-
-/* ── PLATFORMS ── */
-document.getElementById('platgrid').addEventListener('click', e => {
-  const p = e.target.closest('.plat'); if (p) p.classList.toggle('on');
-});
-
-/* ── FILE DROP ── */
+ 
+/* ════════════════════════════════════════════════
+   FILE DROP
+════════════════════════════════════════════════ */
 const dz = document.getElementById('dz');
 dz.addEventListener('dragover', e => { e.preventDefault(); dz.classList.add('ov'); });
 dz.addEventListener('dragleave', () => dz.classList.remove('ov'));
@@ -838,18 +933,25 @@ dz.addEventListener('drop', e => { e.preventDefault(); dz.classList.remove('ov')
 document.getElementById('rf').addEventListener('change', function() { if (this.files[0]) loadFile(this.files[0]); });
 function loadFile(f) {
   const r = new FileReader();
-  r.onload = e => { document.getElementById('rt').value = e.target.result; dz.querySelector('.dz-t').innerHTML = `<strong>${f.name}</strong> <span style="color:var(--grn)">✓</span>`; };
+  r.onload = e => {
+    document.getElementById('rt').value = e.target.result;
+    dz.querySelector('.dz-t').innerHTML = `<strong>${f.name}</strong> <span style="color:var(--grn)">✓</span>`;
+  };
   r.readAsText(f);
 }
-
-/* ── TOAST ── */
+ 
+/* ════════════════════════════════════════════════
+   TOAST
+════════════════════════════════════════════════ */
 let tt;
-function toast(msg) {
+function toast(msg, isErr) {
   const t = document.getElementById('toast');
+  const sp = document.getElementById('toastsp');
   document.getElementById('toasttxt').textContent = msg;
-  t.classList.add('show');
+  t.className = 'toast show' + (isErr ? ' err' : '');
+  sp.style.display = isErr ? 'none' : '';
   clearTimeout(tt);
-  tt = setTimeout(() => t.classList.remove('show'), 3500);
+  tt = setTimeout(() => t.classList.remove('show'), isErr ? 6000 : 3500);
 }
 </script>
 </body>
