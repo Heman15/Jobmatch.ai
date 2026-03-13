@@ -409,6 +409,13 @@ a.cbtn.li-btn:hover{background:#005f8e}
             <option value="ats">ATS only (Greenhouse / Lever / Workday)</option>
           </select>
         </div>
+        <div>
+          <span class="fl">Job type exclusions</span>
+          <select id="fexclude">
+            <option value="">Show all jobs</option>
+            <option value="noconsult" selected>No consultancy / staffing</option>
+          </select>
+        </div>
       </div>
     </div>
 
@@ -434,31 +441,67 @@ a.cbtn.li-btn:hover{background:#005f8e}
 <script>
 let userProfile=null,customSkills=[],allJobs=[];
 let rapidApiKey='0d8bdc79ddmsh3541f3ed9570771p1caa1cjsn02a8f90a8f34';
+let uploadedPdfBase64=null, uploadedPdfName=null;
 
 function addSkill(){const i=document.getElementById('skillinput'),v=i.value.trim();if(!v||customSkills.includes(v)){i.value='';return}customSkills.push(v);renderCSTags();i.value=''}
 function removeSkill(s){customSkills=customSkills.filter(x=>x!==s);renderCSTags()}
 function renderCSTags(){document.getElementById('cstags').innerHTML=customSkills.map(s=>`<span class="cstag" onclick="removeSkill('${s.replace(/'/g,"\\'")}')">✦ ${s}</span>`).join('')}
 
-async function callClaude(sys,usr){
+async function callClaude(sys, usr, pdfBase64=null){
   try{
+    // Build user content — either plain text or PDF document
+    let userContent;
+    if(pdfBase64){
+      userContent = [
+        { type:'document', source:{ type:'base64', media_type:'application/pdf', data:pdfBase64 } },
+        { type:'text', text: usr }
+      ];
+    } else {
+      userContent = usr;
+    }
     const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:sys,messages:[{role:'user',content:usr}]})});
-    if(!r.ok)throw new Error('Claude API '+r.status);
+      headers:{
+        'Content-Type':'application/json',
+        'anthropic-version':'2023-06-01',
+        'anthropic-dangerous-direct-browser-access':'true'
+      },
+      body:JSON.stringify({
+        model:'claude-haiku-4-5-20251001',
+        max_tokens:2000,
+        system:sys,
+        messages:[{role:'user', content:userContent}]
+      })});
+    if(!r.ok){const eb=await r.text();console.error('Claude API',r.status,eb);return null}
     const d=await r.json();return d.content?.[0]?.text||'';
-  }catch(e){console.warn('Claude:',e.message);return null}
+  }catch(e){console.error('Claude fetch:',e.message);return null}
 }
 
 async function parseResume(text){
-  const raw=await callClaude(
-    `You are a resume parser and job search expert. Extract candidate info AND generate smart job search queries.
-Return ONLY valid JSON, no markdown fences, no explanation:
-{"name":"full name or Candidate","title":"primary job title (concise)","yearsExp":4,"skills":["skill1"],"education":"degree and school","domain":"field domain","summary":"2 sentence summary","searchQueries":["query1","query2","query3","query4","query5"]}
-searchQueries: Generate 5 diverse JSearch-optimized queries. Mix specific and broad. Include top skills, tools.`,
-    'Parse this resume:\n\n'+text.slice(0,4500));
-  if(!raw)return fallbackParse(text);
-  try{const p=JSON.parse(raw.replace(/```json|```/g,'').trim());if(!p.searchQueries?.length)p.searchQueries=buildFallbackQueries(p);return p}
-  catch(e){return fallbackParse(text)}
+  const SYS = `You are an expert resume parser. Read the resume carefully and extract EVERY detail.
+CRITICAL: Return ONLY a valid raw JSON object — no markdown, no backticks, no explanation, no preamble.
+Return exactly this structure:
+{"name":"Full Name","title":"Most Recent Job Title","yearsExp":4,"skills":["EVERY technical skill, tool, software, methodology, certification, programming language found — be exhaustive"],"education":"Degree · University","domain":"industry domain","summary":"2-sentence professional summary","searchQueries":["5 diverse job board search queries"]}
+For skills: include ALL of: CAD tools, analysis software, programming languages, methodologies (Lean, DFMEA, 8D), hardware, platforms, databases. List 20-40 skills if they exist in the resume.
+For searchQueries: 5 DIVERSE queries targeting different angles — title+location, title+key skill, seniority variant, adjacent role, domain-specific niche.`;
+
+  const USR = uploadedPdfBase64
+    ? 'Parse this resume PDF completely and return JSON only.'
+    : 'Parse this resume completely and return JSON only:\n\n' + text.slice(0, 8000);
+
+  const raw = await callClaude(SYS, USR, uploadedPdfBase64 || null);
+  if(!raw){
+    toast('⚠ Claude AI unavailable — using keyword fallback. Check browser console for API errors.',true);
+    return fallbackParse(text);
+  }
+  try{
+    const cleaned=raw.replace(/```json|```/g,'').trim();
+    const p=JSON.parse(cleaned);
+    if(!p.searchQueries?.length)p.searchQueries=buildFallbackQueries(p);
+    return p;
+  }catch(e){
+    console.error('JSON parse fail:',e,raw);
+    return fallbackParse(text);
+  }
 }
 function buildFallbackQueries(p){
   const t=p.title||'Mechanical Engineer',s=(p.skills||[]).slice(0,3).join(' ');
@@ -595,7 +638,10 @@ function normalizeJob(raw,idx,scoreData){
 
 async function startScan(){
   const text=document.getElementById('rt').value.trim();
-  if(!text){toast('Please paste or upload your resume first',true);return}
+  if(!text && !uploadedPdfBase64){toast('Please paste or upload your resume first',true);return}
+  if(!text && uploadedPdfBase64){
+    // PDF uploaded but textarea is placeholder — that's fine, proceed
+  }
   const btn=document.getElementById('scanBtn');btn.disabled=true;
   const mc=document.getElementById('mc');
   mc.innerHTML=`
@@ -657,6 +703,23 @@ async function startScan(){
     let filteredRaw=allRaw;
     if(directFilter){filteredRaw=allRaw.filter(j=>{const src=getApplySource(j.job_apply_link);
       if(directFilter==='direct')return src.type==='direct';if(directFilter==='ats')return src.type==='ats';return true})}
+    // Exclude consultancy / staffing agencies
+    const excludeMode = document.getElementById('fexclude').value;
+    if(excludeMode === 'noconsult'){
+      const CONSULT_KEYWORDS = [
+        'staffing','consulting','consultancy','consultant','recruiter','talent agency',
+        'manpower','contract to hire','c2h','corp-to-corp','c2c','third party',
+        'it staffing','tech staffing','outsourc','infosys bpm','tata consultancy',
+        'wipro','cognizant','hcl tech','capgemini','accenture','deloitte consulting',
+        'kforce','insight global','tek systems','teksystems','robert half','randstad',
+        'adecco','kelly services','manpowergroup','apex systems','cybercoders',
+        'modis','experis','allegis','aerotek'
+      ];
+      filteredRaw = filteredRaw.filter(j => {
+        const hay = ((j.employer_name||'') + ' ' + (j.job_title||'') + ' ' + (j.job_description||'').slice(0,300)).toLowerCase();
+        return !CONSULT_KEYWORDS.some(kw => hay.includes(kw));
+      });
+    }
     if(!filteredRaw.length)throw new Error('No jobs found. Try broader filters or a different date range.');
     const dedupedRaw=filteredRaw.slice(0,60);
 
@@ -846,9 +909,35 @@ function sortBy(by,el){
 const dz=document.getElementById('dz');
 dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('ov')});
 dz.addEventListener('dragleave',()=>dz.classList.remove('ov'));
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('ov')});
+dz.addEventListener('dragleave',()=>dz.classList.remove('ov'));
 dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('ov');const f=e.dataTransfer.files[0];if(f)loadFile(f)});
 document.getElementById('rf').addEventListener('change',function(){if(this.files[0])loadFile(this.files[0])});
-function loadFile(f){const r=new FileReader();r.onload=e=>{document.getElementById('rt').value=e.target.result;dz.querySelector('.dz-t').innerHTML=`<strong>${f.name}</strong> <span style="color:var(--em)">✓</span>`};r.readAsText(f)}
+
+function loadFile(f){
+  const isPdf = f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf');
+  dz.querySelector('.dz-t').innerHTML = `<strong>${f.name}</strong> <span style="color:var(--em)">✓ Loading…</span>`;
+  if(isPdf){
+    const r = new FileReader();
+    r.onload = e => {
+      // Store base64 (strip data URL prefix)
+      uploadedPdfBase64 = e.target.result.split(',')[1];
+      uploadedPdfName = f.name;
+      document.getElementById('rt').value = '[PDF uploaded: ' + f.name + ']';
+      dz.querySelector('.dz-t').innerHTML = `<strong>${f.name}</strong> <span style="color:var(--em)">✓ PDF ready</span>`;
+    };
+    r.readAsDataURL(f);
+  } else {
+    uploadedPdfBase64 = null;
+    uploadedPdfName = null;
+    const r = new FileReader();
+    r.onload = e => {
+      document.getElementById('rt').value = e.target.result;
+      dz.querySelector('.dz-t').innerHTML = `<strong>${f.name}</strong> <span style="color:var(--em)">✓</span>`;
+    };
+    r.readAsText(f);
+  }
+}
 
 let tt;
 function toast(msg,isErr){
